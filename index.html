@@ -1,0 +1,2801 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Risky Pratama — Portofolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; box-sizing: border-box; }
+
+  :root {
+    --hero-base:            #04050c;
+    --heading:             #eef0f6;
+    --body-muted:          #b9becf;
+    --on-media:            #ffffff;
+    --action-inverse:      #ffffff;
+    --action-inverse-fg:   #2f2f33;
+    --glass-fill:          rgba(255,255,255,0.08);
+    --glass-border:        rgba(255,255,255,0.16);
+    --scrim:               rgba(4,5,12,0.46);
+    --scrim-strong:        rgba(4,5,12,0.68);
+    --scrim-soft:          rgba(4,5,12,0.12);
+    --duration-fast:       150ms;
+    --ease-entrance:       cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  html { font-size: 16px; }
+  @media (max-width: 1920px) { html { font-size: 0.833333vw; } }
+  @media (max-width: 1440px) { html { font-size: 1.111111vw; } }
+  @media (max-width: 1024px) { html { font-size: 1.5625vw;   } }
+  @media (max-width: 640px)  { html { font-size: 4.444444vw; } }
+
+  body {
+    background: var(--hero-base);
+    color: var(--heading);
+    font-family: "Onest", sans-serif;
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+
+  /* ── Hero ───────────────────────────────────────────────── */
+  .hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100lvh;
+    width: 100%;
+    overflow: hidden;
+    background: var(--hero-base);
+    text-align: center;
+    padding: 0 1.25rem;
+  }
+  @media (min-width: 640px) { .hero { padding: 0 2.5rem; } }
+
+  .fluid {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: radial-gradient(115% 95% at 50% 46%,
+      var(--scrim-strong) 0%, var(--scrim-strong) 24%, var(--scrim) 52%, var(--scrim-soft) 100%);
+  }
+
+  /* ── Top nav ────────────────────────────────────────────── */
+  .nav {
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem;
+  }
+  @media (min-width: 640px) { .nav { padding: 1.75rem 2.5rem; } }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 500;
+    font-size: 1.15rem;
+    color: var(--on-media);
+    letter-spacing: -0.01em;
+  }
+  .brand svg { width: 1.35rem; height: 1.35rem; display: block; }
+  @media (min-width: 640px) {
+    .brand { font-size: 1.375rem; }
+    .brand svg { width: 1.5rem; height: 1.5rem; }
+  }
+
+  .nav-links {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 3rem;
+    display: none;
+    align-items: center;
+    gap: 2.25rem;
+    border-radius: 9999px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-fill);
+    padding: 0 1.75rem;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  @media (min-width: 640px) { .nav-links { display: flex; } }
+
+  .nav-links a {
+    font-size: 0.95rem;
+    color: var(--body-muted);
+    transition: color var(--duration-fast) var(--ease-entrance);
+    white-space: nowrap;
+  }
+  .nav-links a:hover { color: var(--heading); }
+  .nav-links a.is-active { color: var(--heading); }
+
+  .nav-right { display: flex; align-items: center; gap: 0.6rem; }
+
+  .lang {
+    display: flex;
+    align-items: center;
+    height: 2.25rem;
+    gap: 0.15rem;
+    border-radius: 9999px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-fill);
+    padding: 0 0.65rem;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .lang button {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--body-muted);
+    letter-spacing: 0.02em;
+    transition: color var(--duration-fast) var(--ease-entrance);
+  }
+  .lang button:hover,
+  .lang button[aria-pressed="true"] { color: var(--heading); }
+  .lang span { font-size: 0.7rem; color: rgba(255,255,255,0.24); }
+
+  /* ── Shared white pill button ───────────────────────────── */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.5rem;
+    border-radius: 9999px;
+    background: var(--action-inverse);
+    padding: 0 1.125rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--action-inverse-fg);
+    box-shadow: 0 1px 2px rgba(0,0,0,.05);
+    transition: background var(--duration-fast) var(--ease-entrance);
+    white-space: nowrap;
+  }
+  .pill:hover { background: rgba(255,255,255,0.85); }
+  .pill:focus-visible { outline: none; box-shadow: 0 0 0 2px rgba(255,255,255,.7); }
+  @media (min-width: 640px) {
+    .pill { height: 2.75rem; padding: 0 1.375rem; font-size: 0.95rem; }
+  }
+
+  /* ── Center column ──────────────────────────────────────── */
+  .hero-inner {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 22rem;
+  }
+  @media (min-width: 640px)  { .hero-inner { max-width: 40rem; } }
+  @media (min-width: 1024px) { .hero-inner { max-width: 52rem; } }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 9999px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-fill);
+    padding: 0.4rem 0.875rem;
+    font-size: 0.72rem;
+    color: var(--body-muted);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  @media (min-width: 640px) { .badge { font-size: 0.8rem; } }
+
+  h1 {
+    margin-top: 1.25rem;
+    max-width: 20rem;
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--heading);
+    text-align: center;
+  }
+  @media (min-width: 640px)  { h1 { margin-top: 1.75rem; max-width: 34rem; font-size: 3.5rem; } }
+  @media (min-width: 1024px) { h1 { max-width: 46rem; font-size: 5rem; } }
+
+  .sub {
+    margin-top: 1rem;
+    max-width: 20rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--body-muted);
+  }
+  @media (min-width: 640px)  { .sub { margin-top: 1.25rem; max-width: 34rem; font-size: 1.1rem; } }
+  @media (min-width: 1024px) { .sub { max-width: none; font-size: 1.2rem; } }
+
+  .cta-bar {
+    margin-top: 1.75rem;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  @media (min-width: 640px) { .cta-bar { margin-top: 2.5rem; } }
+
+  .glass-bar {
+    display: flex;
+    align-items: center;
+    width: 37rem;
+    max-width: 100%;
+    height: 3.5rem;
+    border-radius: 9999px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-fill);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 1px 2px rgba(0,0,0,.05);
+    padding-left: 1.25rem;
+    padding-right: 0.35rem;
+  }
+  @media (min-width: 640px) {
+    .glass-bar { height: 4rem; padding-left: 1.5rem; padding-right: 0.4rem; }
+  }
+
+  .email {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    background: transparent;
+    color: var(--heading);
+    font-size: 0.95rem;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  @media (min-width: 640px) { .email { font-size: 1.15rem; } }
+
+  /* ── Sections ───────────────────────────────────────────── */
+  .section {
+    background-color: var(--hero-base);
+    background-image: radial-gradient(70% 55% at 50% 0%, rgba(255,255,255,0.03), transparent 70%);
+  }
+
+  .section-inner {
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 8rem 2.5rem;
+  }
+  @media (max-width: 639px) { .section-inner { padding: 5rem 1.25rem; } }
+
+  .section-head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 9999px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-fill);
+    padding: 0.4rem 0.875rem;
+    font-size: 0.8rem;
+    color: var(--body-muted);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .section h2 {
+    margin-top: 1.25rem;
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--heading);
+  }
+  @media (min-width: 640px)  { .section h2 { font-size: 3rem; } }
+  @media (min-width: 1024px) { .section h2 { font-size: 3.5rem; } }
+
+  .section-intro {
+    margin-top: 1.25rem;
+    max-width: 40rem;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--body-muted);
+  }
+  @media (min-width: 640px) { .section-intro { font-size: 1.1rem; } }
+
+  /* ── Cards ──────────────────────────────────────────────── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-top: 3rem;
+  }
+  @media (min-width: 1024px) {
+    .card-grid--three { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  .card-grid > .reveal { display: flex; flex-direction: column; }
+  .card-grid .card { flex: 1; }
+
+  .card {
+    background: var(--glass-fill);
+    border: 1px solid var(--glass-border);
+    border-radius: 1.5rem;
+    padding: 1.75rem;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    text-align: left;
+    transition: border-color var(--duration-fast) var(--ease-entrance),
+                transform var(--duration-fast) var(--ease-entrance);
+  }
+  .card:hover {
+    border-color: rgba(255,255,255,0.28);
+    transform: translateY(-0.25rem);
+  }
+
+  .card h3 {
+    font-size: 1.15rem;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--heading);
+  }
+  .card p {
+    margin-top: 0.6rem;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--body-muted);
+  }
+  @media (min-width: 640px) { .card p { font-size: 1.1rem; } }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 9999px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-fill);
+    padding: 0.4rem 0.9rem;
+    font-size: 0.85rem;
+    color: var(--body-muted);
+  }
+
+  /* ── Tools (inside About) ───────────────────────────────── */
+  .tools { margin-top: 4rem; }
+
+  .tools-title {
+    font-size: 1.15rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--heading);
+    text-align: center;
+  }
+
+  .tools-groups {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+  @media (min-width: 640px) { .tools-groups { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .tools-groups { grid-template-columns: repeat(4, 1fr); } }
+
+  .tool-group {
+    background: var(--glass-fill);
+    border: 1px solid var(--glass-border);
+    border-radius: 1.5rem;
+    padding: 1.75rem;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    text-align: left;
+  }
+  .tool-group h4 {
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--heading);
+  }
+
+  .about-cta {
+    display: flex;
+    justify-content: center;
+    margin-top: 2.5rem;
+  }
+
+  /* ── Journey ────────────────────────────────────────────── */
+  .journey-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    margin-top: 3rem;
+  }
+  @media (min-width: 1024px) {
+    .journey-grid { grid-template-columns: 1.05fr 1fr; align-items: start; }
+  }
+
+  .journey-col h3 {
+    font-size: 1.15rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--heading);
+  }
+
+  .timeline {
+    position: relative;
+    list-style: none;
+    margin: 1.5rem 0 0;
+    padding: 0 0 0 2rem;
+  }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 0.3rem;
+    top: 0.75rem;
+    bottom: 0.75rem;
+    width: 1px;
+    background: var(--glass-border);
+  }
+
+  .timeline-item { position: relative; }
+  .timeline-item + .timeline-item { margin-top: 1.25rem; }
+
+  .timeline-dot {
+    position: absolute;
+    left: -1.75rem;
+    top: 2rem;
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 9999px;
+    background: rgba(255,255,255,0.65);
+  }
+
+  .timeline .timeline-time {
+    margin-top: 0;
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+    color: var(--body-muted);
+  }
+  .timeline .card p + p { margin-top: 0.35rem; }
+
+  .cert-list {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+
+  .cert .cert-year {
+    margin-top: 0;
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+    color: var(--body-muted);
+  }
+  .cert .cert-title {
+    margin-top: 0.35rem;
+    font-size: 1.05rem;
+    font-weight: 500;
+    line-height: 1.35;
+    color: var(--heading);
+  }
+  .cert .cert-publisher {
+    margin-top: 0.35rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--body-muted);
+  }
+
+  /* ── Projects ──────────────────────────────────────────── */
+  .project-filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-top: 2rem;
+  }
+  .filter-btn {
+    height: 2.5rem;
+    padding: 0 1.125rem;
+    border-radius: 9999px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-fill);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--body-muted);
+    transition: color var(--duration-fast) var(--ease-entrance),
+                background var(--duration-fast) var(--ease-entrance),
+                border-color var(--duration-fast) var(--ease-entrance);
+  }
+  .filter-btn:hover { color: var(--heading); border-color: rgba(255,255,255,0.28); }
+  .filter-btn.is-active {
+    background: var(--action-inverse);
+    border-color: var(--action-inverse);
+    color: var(--action-inverse-fg);
+  }
+  .filter-btn.is-active:hover { background: rgba(255,255,255,0.85); color: var(--action-inverse-fg); }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-top: 2rem;
+  }
+  @media (min-width: 640px)  { .project-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .project-grid { grid-template-columns: repeat(3, 1fr); } }
+
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 1.5rem;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-fill);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    text-align: left;
+    transition: border-color var(--duration-fast) var(--ease-entrance),
+                transform var(--duration-fast) var(--ease-entrance);
+  }
+  .project-card:hover { border-color: rgba(255,255,255,0.28); transform: translateY(-0.25rem); }
+
+  .project-media {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: rgba(255,255,255,0.04);
+  }
+  .project-media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 400ms var(--ease-entrance);
+  }
+  .project-media img.is-alt { opacity: 0; }
+  .project-card:hover .project-media img.is-alt { opacity: 1; }
+
+  .project-dots {
+    position: absolute;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    display: flex;
+    gap: 0.3rem;
+  }
+  .project-dots span {
+    width: 0.35rem;
+    height: 0.35rem;
+    border-radius: 9999px;
+    background: rgba(255,255,255,0.45);
+  }
+  .project-dots span:first-child { background: rgba(255,255,255,0.9); }
+
+  .project-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 1.5rem;
+  }
+
+  .project-badges { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .project-badges .chip { font-size: 0.75rem; padding: 0.25rem 0.7rem; }
+  .chip--award { color: var(--heading); border-color: rgba(255,255,255,0.32); }
+
+  .project-title {
+    margin-top: 0.75rem;
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: var(--heading);
+  }
+  .project-desc {
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--body-muted);
+  }
+  .project-body .chips { margin-top: 1rem; }
+
+  .apk-note {
+    display: flex;
+    gap: 0.45rem;
+    margin-top: 0.75rem;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    color: var(--body-muted);
+  }
+  .apk-note svg {
+    flex: 0 0 auto;
+    width: 0.95rem;
+    height: 0.95rem;
+    margin-top: 0.1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .project-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 1.25rem;
+  }
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.5rem;
+    padding: 0 1rem;
+    border-radius: 9999px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-fill);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--body-muted);
+    white-space: nowrap;
+    transition: color var(--duration-fast) var(--ease-entrance),
+                border-color var(--duration-fast) var(--ease-entrance);
+  }
+  .btn-ghost:hover { color: var(--heading); border-color: rgba(255,255,255,0.28); }
+  .project-actions .pill { height: 2.5rem; padding: 0 1rem; font-size: 0.85rem; }
+
+  /* ── Contact ───────────────────────────────────────────── */
+  .contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2.5rem;
+  }
+  .contact-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    height: 3.5rem;
+    padding: 0 1.5rem;
+    border-radius: 9999px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-fill);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--body-muted);
+    transition: color var(--duration-fast) var(--ease-entrance),
+                border-color var(--duration-fast) var(--ease-entrance);
+  }
+  .contact-btn:hover { color: var(--heading); border-color: rgba(255,255,255,0.28); }
+  .contact-btn svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* ── Site footer ───────────────────────────────────────── */
+  .site-footer {
+    display: flex;
+    justify-content: center;
+    padding: 2.5rem 1.25rem;
+    background: var(--hero-base);
+    font-size: 0.72rem;
+    color: var(--body-muted);
+  }
+  @media (min-width: 640px) {
+    .site-footer { padding: 2.5rem; font-size: 0.8rem; }
+  }
+
+  /* ── Reveal on scroll ──────────────────────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(1.25rem);
+    transition: opacity 700ms var(--ease-entrance),
+                transform 700ms var(--ease-entrance);
+  }
+  .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+  /* ── Reveal ─────────────────────────────────────────────── */
+  .reveal-block {
+    opacity: 0;
+    transition: opacity 700ms cubic-bezier(0.2, 0, 0, 1),
+                transform 700ms cubic-bezier(0.2, 0, 0, 1);
+  }
+  .reveal-block--up   { transform: translateY(1.25rem); }
+  .reveal-block--down { transform: translateY(-0.75rem); }
+  .reveal-block.is-in { opacity: 1; transform: translateY(0); }
+
+  .reveal-word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(var(--word-y, 26px));
+    transition: opacity var(--word-dur, 720ms) cubic-bezier(0.215, 0.61, 0.355, 1),
+                transform var(--word-dur, 720ms) cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  #heading { --word-y: 26px; --word-dur: 720ms; }
+  #subline { --word-y: 14px; --word-dur: 600ms; }
+  .reveal-word.is-in { opacity: 1; transform: translateY(0); }
+  @media (max-width: 640px) {
+    .nav-right { gap: 0.5rem; }
+    .lang { height: 2rem; padding: 0 0.5rem; }
+    .lang button { font-size: 0.75rem; }
+  }
+  @media (max-width: 400px) {
+    .brand { font-size: 1rem; }
+    .brand svg { width: 1.2rem; height: 1.2rem; }
+    .pill { font-size: 0.8rem; padding: 0 0.9rem; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero" id="home">
+  <canvas class="fluid" aria-hidden="true"></canvas>
+  <div class="scrim" aria-hidden="true"></div>
+
+  <header class="nav reveal-block reveal-block--down" data-delay="150">
+    <a class="brand" href="#home">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M2.5 9c2.5 0 2.5 4.2 5 4.2S10 9 12 9s2.5 4.2 5 4.2S19.5 9 21.5 9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M2.5 15c2.5 0 2.5 4.2 5 4.2S10 15 12 15s2.5 4.2 5 4.2S19.5 15 21.5 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity="0.5"/>
+      </svg>
+      <span>Risky Pratama</span>
+    </a>
+
+    <nav class="nav-links" aria-label="Navigasi utama">
+      <a href="#about" data-i18n="nav.about">Tentang</a>
+      <a href="#projects" data-i18n="nav.projects">Proyek</a>
+      <a href="#journey" data-i18n="nav.journey">Perjalanan</a>
+      <a href="#contact" data-i18n="nav.contact">Kontak</a>
+    </nav>
+
+    <div class="nav-right">
+      <div class="lang" role="group" aria-label="Pilih bahasa">
+        <button type="button" data-lang="id" aria-label="Bahasa Indonesia" aria-pressed="true">ID</button>
+        <span aria-hidden="true">|</span>
+        <button type="button" data-lang="en" aria-label="English" aria-pressed="false">EN</button>
+      </div>
+      <a class="pill" href="mailto:riskyypra1312@gmail.com" data-i18n="nav.cta">Hubungi Saya</a>
+    </div>
+  </header>
+
+  <div class="hero-inner">
+    <p class="badge reveal-block reveal-block--up" data-delay="320" data-i18n="hero.badge">Mahasiswa Sistem Informasi</p>
+
+    <h1 id="heading" data-i18n="hero.heading">Hai, saya Risky Pratama</h1>
+
+    <p class="sub" id="subline" data-i18n="hero.sub">Membangun situs web dan menjelajahi alat AI, satu proyek menarik pada satu waktu.</p>
+
+    <div class="cta-bar reveal-block reveal-block--up" data-delay="1450">
+      <div class="glass-bar">
+        <span class="email">riskyypra1312@gmail.com</span>
+        <button class="pill" id="copy-email" type="button" data-i18n="hero.copy">Salin Email</button>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<main>
+  <section class="section" id="about">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <p class="section-label" data-i18n="about.label">Tentang</p>
+        <h2 data-i18n="about.title">Tentang Saya</h2>
+        <p class="section-intro" data-i18n="about.paragraph">Saya mahasiswa Program Studi Sistem Informasi di Fakultas Teknik, Universitas Musamus Merauke. Saya mempelajari pengembangan web dengan HTML, CSS, dan JavaScript, dengan perhatian pada antarmuka yang rapi dan interaktif.</p>
+      </div>
+
+      <div class="card-grid card-grid--three">
+        <div class="reveal">
+          <article class="card">
+            <h3 data-i18n="about.card1.title">Pendidikan</h3>
+            <p data-i18n="about.card1.text">Sistem Informasi, Fakultas Teknik, Universitas Musamus Merauke</p>
+          </article>
+        </div>
+        <div class="reveal">
+          <article class="card">
+            <h3 data-i18n="about.card2.title">Fokus</h3>
+            <p data-i18n="about.card2.text">Pengembangan web dengan HTML, CSS, dan JavaScript</p>
+          </article>
+        </div>
+        <div class="reveal">
+          <article class="card">
+            <h3 data-i18n="about.card3.title">Di luar kuliah</h3>
+            <p data-i18n="about.card3.text">Mencoba model dan alat AI baru, serta membuat proyek-proyek menarik yang bisa diikuti orang lain</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="tools">
+        <h3 class="tools-title" data-i18n="tools.title">Teknologi dan Alat</h3>
+        <div class="tools-groups">
+          <div class="tool-group reveal">
+            <h4 data-i18n="tools.web.title">Pengembangan Web</h4>
+            <div class="chips">
+              <span class="chip" data-i18n="tools.web.chip1">HTML</span>
+              <span class="chip" data-i18n="tools.web.chip2">CSS</span>
+              <span class="chip" data-i18n="tools.web.chip3">JavaScript</span>
+            </div>
+          </div>
+          <div class="tool-group reveal">
+            <h4 data-i18n="tools.android.title">Pengembangan Android</h4>
+            <div class="chips">
+              <span class="chip" data-i18n="tools.android.chip1">Android Studio</span>
+            </div>
+          </div>
+          <div class="tool-group reveal">
+            <h4 data-i18n="tools.work.title">Alat Kerja</h4>
+            <div class="chips">
+              <span class="chip" data-i18n="tools.work.chip1">VS Code</span>
+              <span class="chip" data-i18n="tools.work.chip2">Cline</span>
+              <span class="chip" data-i18n="tools.work.chip3">freebuff</span>
+            </div>
+          </div>
+          <div class="tool-group reveal">
+            <h4 data-i18n="tools.ai.title">Alat Bantu AI</h4>
+            <div class="chips">
+              <span class="chip" data-i18n="tools.ai.chip1">DeepSeek</span>
+              <span class="chip" data-i18n="tools.ai.chip2">Qwen</span>
+              <span class="chip" data-i18n="tools.ai.chip3">Gemini</span>
+              <span class="chip" data-i18n="tools.ai.chip4">Claude</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-cta">
+        <a class="pill" href="assets/cv.pdf" download data-i18n="about.cv">Unduh CV</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="projects">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <p class="section-label" data-i18n="projects.label">Proyek</p>
+        <h2 data-i18n="projects.title">Proyek Pilihan</h2>
+        <p class="section-intro" data-i18n="projects.intro">Aplikasi Android dan website yang saya buat untuk lomba, kuliah, dan keseharian.</p>
+      </div>
+
+      <div class="project-filters reveal">
+        <button type="button" class="filter-btn is-active" data-filter="all" aria-pressed="true" data-i18n="projects.filter.all">Semua</button>
+        <button type="button" class="filter-btn" data-filter="web" aria-pressed="false" data-i18n="projects.filter.web">Web</button>
+        <button type="button" class="filter-btn" data-filter="android" aria-pressed="false" data-i18n="projects.filter.android">Android</button>
+      </div>
+
+      <div class="project-grid" id="project-grid"></div>
+    </div>
+  </section>
+
+  <section class="section" id="journey">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <p class="section-label" data-i18n="journey.label">Perjalanan</p>
+        <h2 data-i18n="journey.title">Pendidikan, Organisasi, dan Penghargaan</h2>
+      </div>
+
+      <div class="journey-grid">
+        <div class="journey-col">
+          <h3 data-i18n="journey.timeline">Garis Waktu</h3>
+          <ol class="timeline">
+            <li class="timeline-item reveal">
+              <span class="timeline-dot" aria-hidden="true"></span>
+              <article class="card">
+                <p class="timeline-time" data-i18n="journey.t1.time">2026–2027</p>
+                <p data-i18n="journey.t1.text">Anggota Divisi Humas, Himpunan Mahasiswa Sistem Informasi (HMSI)</p>
+              </article>
+            </li>
+            <li class="timeline-item reveal">
+              <span class="timeline-dot" aria-hidden="true"></span>
+              <article class="card">
+                <p class="timeline-time" data-i18n="journey.t2.time">2025–sekarang</p>
+                <p data-i18n="journey.t2.text">Mahasiswa Sistem Informasi, Fakultas Teknik, Universitas Musamus Merauke</p>
+              </article>
+            </li>
+          </ol>
+        </div>
+
+        <div class="journey-col">
+          <h3 data-i18n="journey.certs">Sertifikat dan Penghargaan</h3>
+          <div class="cert-list">
+            <div class="reveal">
+              <article class="card cert">
+                <p class="cert-year" data-i18n="journey.c1.year">2025</p>
+                <p class="cert-title" data-i18n="journey.c1.title">Juara 3 Lomba Website</p>
+                <p class="cert-publisher" data-i18n="journey.c1.publisher">Himpunan Mahasiswa Sistem Informasi</p>
+              </article>
+            </div>
+            <div class="reveal">
+              <article class="card cert">
+                <p class="cert-year" data-i18n="journey.c2.year">2025</p>
+                <p class="cert-title" data-i18n="journey.c2.title">Peserta Lomba Website</p>
+                <p class="cert-publisher" data-i18n="journey.c2.publisher">Himpunan Mahasiswa Sistem Informasi</p>
+              </article>
+            </div>
+            <div class="reveal">
+              <article class="card cert">
+                <p class="cert-year" data-i18n="journey.c3.year">2024</p>
+                <p class="cert-title" data-i18n="journey.c3.title">Juara 2 Lomba GGM Kimia (kegiatan COD II)</p>
+                <p class="cert-publisher" data-i18n="journey.c3.publisher">Jurusan Pendidikan Kimia</p>
+              </article>
+            </div>
+            <div class="reveal">
+              <article class="card cert">
+                <p class="cert-year" data-i18n="journey.c4.year">2024</p>
+                <p class="cert-title" data-i18n="journey.c4.title">Peserta Seleksi Naskah Bidang Fisika Terapan dan Rekayasa, Olimpiade Penelitian Siswa Indonesia (OPSI)</p>
+                <p class="cert-publisher" data-i18n="journey.c4.publisher">Kemdikbudsaintek Puspresnas dan Balai Pengembangan Talenta Indonesia</p>
+              </article>
+            </div>
+            <div class="reveal">
+              <article class="card cert">
+                <p class="cert-year" data-i18n="journey.c5.year">2024</p>
+                <p class="cert-title" data-i18n="journey.c5.title">Sertifikat Uji Kemahiran Berbahasa Indonesia (UKBI)</p>
+                <p class="cert-publisher" data-i18n="journey.c5.publisher">Badan Pengembangan dan Pembinaan Bahasa, Kemendikbudristek</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <p class="section-label" data-i18n="contact.label">Kontak</p>
+        <h2 data-i18n="contact.title">Mari Terhubung</h2>
+        <p class="section-intro" data-i18n="contact.intro">Terbuka untuk berdiskusi dan berkolaborasi.</p>
+      </div>
+
+      <div class="contact-row reveal">
+        <a class="contact-btn" href="https://github.com/Riskyy1312" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+          <span data-i18n="contact.github">GitHub</span>
+        </a>
+        <a class="contact-btn" href="https://instagram.com/prat.amaa1312" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          <span data-i18n="contact.instagram">Instagram</span>
+        </a>
+        <a class="contact-btn" href="mailto:riskyypra1312@gmail.com" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>
+          <span data-i18n="contact.email">Email</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer reveal" data-i18n="footer.text">&copy; 2026 Risky Pratama. Dibangun dengan HTML, CSS, dan JavaScript.</footer>
+
+<script type="importmap">{ "imports": { "lenis": "https://unpkg.com/lenis@1.3.19/dist/lenis.mjs" } }</script>
+<script type="module">
+import Lenis from "lenis";
+
+const lenis = new Lenis({ smoothWheel: true });
+function raf(t){ lenis.raf(t); requestAnimationFrame(raf); }
+requestAnimationFrame(raf);
+
+function fluidSimulation(canvas) {
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+
+    let config = {
+        SIM_RESOLUTION: 200,
+        DYE_RESOLUTION: 512,
+        DENSITY_DISSIPATION: 0.958, // trails fade so idle swirls stay dynamic, not saturated
+        VELOCITY_DISSIPATION: 0.96,
+        PRESSURE_DISSIPATION: 0.8,
+        PRESSURE_ITERATIONS: 20,
+        CURL: 42,                   // extra swirl for the marbled look
+        SPLAT_RADIUS: 0.22,         // fatter ink blobs
+        SHADING: true,
+        COLORFUL: true,
+        PAUSED: false,
+        BACK_COLOR: { r: 4, g: 5, b: 12 }, // deep near-black base (immersive)
+        TRANSPARENT: false,
+        BLOOM: false,
+        BLOOM_ITERATIONS: 8,
+        BLOOM_RESOLUTION: 256,
+        BLOOM_INTENSITY: 0.8,
+        BLOOM_THRESHOLD: 0.8,
+        BLOOM_SOFT_KNEE: 0.7
+    }
+
+    function pointerPrototype() {
+        this.id = -1;
+        this.x = 0;
+        this.y = 0;
+        this.dx = 0;
+        this.dy = 0;
+        this.down = false;
+        this.moved = false;
+        this.color = [30, 0, 300];
+    }
+
+    let pointers = [];
+    let splatStack = [];
+    let bloomFramebuffers = [];
+    pointers.push(new pointerPrototype());
+
+    const { gl, ext } = getWebGLContext(canvas);
+
+    if (isMobile())
+        config.SHADING = false;
+    if (!ext.supportLinearFiltering) {
+        config.SHADING = false;
+        config.BLOOM = false;
+    }
+
+    function getWebGLContext(canvas) {
+        const params = { alpha: true, depth: false, stencil: false, antialias: false, preserveDrawingBuffer: false };
+
+        let gl = canvas.getContext('webgl2', params);
+        const isWebGL2 = !!gl;
+        if (!isWebGL2)
+            gl = canvas.getContext('webgl', params) || canvas.getContext('experimental-webgl', params);
+
+        let halfFloat;
+        let supportLinearFiltering;
+        if (isWebGL2) {
+            gl.getExtension('EXT_color_buffer_float');
+            supportLinearFiltering = gl.getExtension('OES_texture_float_linear');
+        } else {
+            halfFloat = gl.getExtension('OES_texture_half_float');
+            supportLinearFiltering = gl.getExtension('OES_texture_half_float_linear');
+        }
+
+        gl.clearColor(0.0, 0.0, 0.0, 1.0);
+
+        const halfFloatTexType = isWebGL2 ? gl.HALF_FLOAT : halfFloat.HALF_FLOAT_OES;
+        let formatRGBA;
+        let formatRG;
+        let formatR;
+
+        if (isWebGL2) {
+            formatRGBA = getSupportedFormat(gl, gl.RGBA16F, gl.RGBA, halfFloatTexType);
+            formatRG = getSupportedFormat(gl, gl.RG16F, gl.RG, halfFloatTexType);
+            formatR = getSupportedFormat(gl, gl.R16F, gl.RED, halfFloatTexType);
+        }
+        else {
+            formatRGBA = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloatTexType);
+            formatRG = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloatTexType);
+            formatR = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloatTexType);
+        }
+
+        return {
+            gl,
+            ext: {
+                formatRGBA,
+                formatRG,
+                formatR,
+                halfFloatTexType,
+                supportLinearFiltering
+            }
+        };
+    }
+
+    function getSupportedFormat(gl, internalFormat, format, type) {
+        if (!supportRenderTextureFormat(gl, internalFormat, format, type)) {
+            switch (internalFormat) {
+                case gl.R16F:
+                    return getSupportedFormat(gl, gl.RG16F, gl.RG, type);
+                case gl.RG16F:
+                    return getSupportedFormat(gl, gl.RGBA16F, gl.RGBA, type);
+                default:
+                    return null;
+            }
+        }
+
+        return {
+            internalFormat,
+            format
+        }
+    }
+
+    function supportRenderTextureFormat(gl, internalFormat, format, type) {
+        let texture = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        gl.texImage2D(gl.TEXTURE_2D, 0, internalFormat, 4, 4, 0, format, type, null);
+
+        let fbo = gl.createFramebuffer();
+        gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
+        gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0);
+
+        const status = gl.checkFramebufferStatus(gl.FRAMEBUFFER);
+        if (status != gl.FRAMEBUFFER_COMPLETE)
+            return false;
+        return true;
+    }
+
+    function clamp01(input) {
+        return Math.min(Math.max(input, 0), 1);
+    }
+
+    function isMobile() {
+        return /Mobi|Android/i.test(navigator.userAgent);
+    }
+
+    class GLProgram {
+        constructor(vertexShader, fragmentShader) {
+            this.uniforms = {};
+            this.program = gl.createProgram();
+
+            gl.attachShader(this.program, vertexShader);
+            gl.attachShader(this.program, fragmentShader);
+            gl.linkProgram(this.program);
+
+            if (!gl.getProgramParameter(this.program, gl.LINK_STATUS))
+                throw gl.getProgramInfoLog(this.program);
+
+            const uniformCount = gl.getProgramParameter(this.program, gl.ACTIVE_UNIFORMS);
+            for (let i = 0; i < uniformCount; i++) {
+                const uniformName = gl.getActiveUniform(this.program, i).name;
+                this.uniforms[uniformName] = gl.getUniformLocation(this.program, uniformName);
+            }
+        }
+
+        bind() {
+            gl.useProgram(this.program);
+        }
+    }
+
+    function compileShader(type, source) {
+        const shader = gl.createShader(type);
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+
+        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS))
+            throw gl.getShaderInfoLog(shader);
+
+        return shader;
+    };
+
+    const baseVertexShader = compileShader(gl.VERTEX_SHADER, `
+        precision highp float;
+        attribute vec2 aPosition;
+        varying vec2 vUv;
+        varying vec2 vL;
+        varying vec2 vR;
+        varying vec2 vT;
+        varying vec2 vB;
+        uniform vec2 texelSize;
+        void main () {
+            vUv = aPosition * 0.5 + 0.5;
+            vL = vUv - vec2(texelSize.x, 0.0);
+            vR = vUv + vec2(texelSize.x, 0.0);
+            vT = vUv + vec2(0.0, texelSize.y);
+            vB = vUv - vec2(0.0, texelSize.y);
+            gl_Position = vec4(aPosition, 0.0, 1.0);
+        }
+    `);
+
+    const clearShader = compileShader(gl.FRAGMENT_SHADER, `
+        precision mediump float;
+        precision mediump sampler2D;
+        varying highp vec2 vUv;
+        uniform sampler2D uTexture;
+        uniform float value;
+        void main () {
+            gl_FragColor = value * texture2D(uTexture, vUv);
+        }
+    `);
+
+    const colorShader = compileShader(gl.FRAGMENT_SHADER, `
+        precision mediump float;
+        uniform vec4 color;
+        void main () {
+            gl_FragColor = color;
+        }
+    `);
+
+    const backgroundShader = compileShader(gl.FRAGMENT_SHADER, `
+        precision highp float;
+        precision highp sampler2D;
+        varying vec2 vUv;
+        uniform sampler2D uTexture;
+        uniform float aspectRatio;
+        #define SCALE 25.0
+        void main () {
+            vec2 uv = floor(vUv * SCALE * vec2(aspectRatio, 1.0));
+            float v = mod(uv.x + uv.y, 2.0);
+            v = v * 0.1 + 0.8;
+            gl_FragColor = vec4(vec3(v), 1.0);
+        }
+    `);
+
+    const displayShader = compileShader(gl.FRAGMENT_SHADER, `
+        precision highp float;
+        precision highp sampler2D;
+        varying vec2 vUv;
+        uniform sampler2D uTexture;
+        void main () {
+            vec3 C = texture2D(uTexture, vUv).rgb;
+            float a = max(C.r, max(C.g, C.b));
+            gl_FragColor = vec4(C, a);
+        }
+    `);
+
+    const displayBloomShader = compileShader(gl.FRAGMENT_SHADER, `
+        precision highp float;
+        precision highp sampler2D;
+        varying vec2 vUv;
+        uniform sampler2D uTexture;
+        uniform sampler2D uBloom;
+        uniform sampler2D uDithering;
+        uniform vec2 ditherScale;
+        void main () {
+            vec3 C = texture2D(uTexture, vUv).rgb;
+            vec3 bloom = texture2D(uBloom, vUv).rgb;
+            vec3 noise = texture2D(uDithering, vUv * ditherScale).rgb;
+            noise = noise * 2.0 - 1.0;
+            bloom += noise / 800.0;
+            bloom = pow(bloom.rgb, vec3(1.0 / 2.2));
+            C += bloom;
+            float a = max(C.r, max(C.g, C.b));
+            gl_FragColor = vec4(C, a);
+        }
+    `);
+
+    const displayShadingShader = compileShader(gl.FRAGMENT_SHADER, `
+        precision highp float;
+        precision highp sampler2D;
+        varying vec2 vUv;
+        varying vec2 vL;
+        varying vec2 vR;
+        varying vec2 vT;
+        varying vec2 vB;
+        uniform sampler2D uTexture;
+        uniform vec2 texelSize;
+        void main () {
+            vec3 L = texture2D(uTexture, vL).rgb;
+            vec3 R = texture2D(uTexture, vR).rgb;
+            vec3 T = texture2D(uTexture, vT).rgb;
+            vec3 B = texture2D(uTexture, vB).rgb;
+            vec3 C = texture2D(uTexture, vUv).rgb;
+            float dx = length(R) - length(L);
+            float dy = length(T) - length(B);
+            vec3 n = normalize(vec3(dx, dy, length(texelSize)));
+            vec3 l = vec3(0.0, 0.0, 1.0);
+            float diffuse = clamp(dot(n, l) + 0.7, 0.7, 1.0);
+            C.rgb *= diffuse;
+            float a = max(C.r, max(C.g, C.b));
+            gl_FragColor = vec4(C, a);
+        }
+    `);
+
+    const displayBloomShadingShader = compileShader(gl.FRAGMENT_SHADER, `
+        precision highp float;
+        precision highp sampler2D;
+        varying vec2 vUv;
+        varying vec2 vL;
+        varying vec2 vR;
+        varying vec2 vT;
+        varying vec2 vB;
+        uniform sampler2D uTexture;
+        uniform sampler2D uBloom;
+        uniform sampler2D uDithering;
+        uniform vec2 ditherScale;
+        uniform vec2 texelSize;
+        void main () {
+            vec3 L = texture2D(uTexture, vL).rgb;
+            vec3 R = texture2D(uTexture, vR).rgb;
+            vec3 T = texture2D(uTexture, vT).rgb;
+            vec3 B = texture2D(uTexture, vB).rgb;
+            vec3 C = texture2D(uTexture, vUv).rgb;
+            float dx = length(R) - length(L);
+            float dy = length(T) - length(B);
+            vec3 n = normalize(vec3(dx, dy, length(texelSize)));
+            vec3 l = vec3(0.0, 0.0, 1.0);
+            float diffuse = clamp(dot(n, l) + 0.7, 0.7, 1.0);
+            C *= diffuse;
+            vec3 bloom = texture2D(uBloom, vUv).rgb;
+            vec3 noise = texture2D(uDithering, vUv * ditherScale).rgb;
+            noise = noise * 2.0 - 1.0;
+            bloom += noise / 800.0;
+            bloom = pow(bloom.rgb, vec3(1.0 / 2.2));
+            C += bloom;
+            float a = max(C.r, max(C.g, C.b));
+            gl_FragColor = vec4(C, a);
+        }
+    `);
+
+    const bloomPrefilterShader = compileShader(gl.FRAGMENT_SHADER, `
+        precision mediump float;
+        precision mediump sampler2D;
+        varying vec2 vUv;
+        uniform sampler2D uTexture;
+        uniform vec3 curve;
+        uniform float threshold;
+        void main () {
+            vec3 c = texture2D(uTexture, vUv).rgb;
+            float br = max(c.r, max(c.g, c.b));
+            float rq = clamp(br - curve.x, 0.0, curve.y);
+            rq = curve.z * rq * rq;
+            c *= max(rq, br - threshold) / max(br, 0.0001);
+            gl_FragColor = vec4(c, 0.0);
+        }
+    `);
+
+    const bloomBlurShader = compileShader(gl.FRAGMENT_SHADER, `
+        precision mediump float;
+        precision mediump sampler2D;
+        varying vec2 vL;
+        varying vec2 vR;
+        varying vec2 vT;
+        varying vec2 vB;
+        uniform sampler2D uTexture;
+        void main () {
+            vec4 sum = vec4(0.0);
+            sum += texture2D(uTexture, vL);
+            sum += texture2D(uTexture, vR);
+            sum += texture2D(uTexture, vT);
+            sum += texture2D(uTexture, vB);
+            sum *= 0.25;
+            gl_FragColor = sum;
+        }
+    `);
+
+    const bloomFinalShader = compileShader(gl.FRAGMENT_SHADER, `
+        precision mediump float;
+        precision mediump sampler2D;
+        varying vec2 vL;
+        varying vec2 vR;
+        varying vec2 vT;
+        varying vec2 vB;
+        uniform sampler2D uTexture;
+        uniform float intensity;
+        void main () {
+            vec4 sum = vec4(0.0);
+            sum += texture2D(uTexture, vL);
+            sum += texture2D(uTexture, vR);
+            sum += texture2D(uTexture, vT);
+            sum += texture2D(uTexture, vB);
+            sum *= 0.25;
+            gl_FragColor = sum * intensity;
+        }
+    `);
+
+    const splatShader = compileShader(gl.FRAGMENT_SHADER, `
+        precision highp float;
+        precision highp sampler2D;
+        varying vec2 vUv;
+        uniform sampler2D uTarget;
+        uniform float aspectRatio;
+        uniform vec3 color;
+        uniform vec2 point;
+        uniform float radius;
+        void main () {
+            vec2 p = vUv - point.xy;
+            p.x *= aspectRatio;
+            vec3 splat = exp(-dot(p, p) / radius) * color;
+            vec3 base = texture2D(uTarget, vUv).xyz;
+            gl_FragColor = vec4(base + splat, 1.0);
+        }
+    `);
+
+    const advectionManualFilteringShader = compileShader(gl.FRAGMENT_SHADER, `
+        precision highp float;
+        precision highp sampler2D;
+        varying vec2 vUv;
+        uniform sampler2D uVelocity;
+        uniform sampler2D uSource;
+        uniform vec2 texelSize;
+        uniform vec2 dyeTexelSize;
+        uniform float dt;
+        uniform float dissipation;
+        vec4 bilerp (sampler2D sam, vec2 uv, vec2 tsize) {
+            vec2 st = uv / tsize - 0.5;
+            vec2 iuv = floor(st);
+            vec2 fuv = fract(st);
+            vec4 a = texture2D(sam, (iuv + vec2(0.5, 0.5)) * tsize);
+            vec4 b = texture2D(sam, (iuv + vec2(1.5, 0.5)) * tsize);
+            vec4 c = texture2D(sam, (iuv + vec2(0.5, 1.5)) * tsize);
+            vec4 d = texture2D(sam, (iuv + vec2(1.5, 1.5)) * tsize);
+            return mix(mix(a, b, fuv.x), mix(c, d, fuv.x), fuv.y);
+        }
+        void main () {
+            vec2 coord = vUv - dt * bilerp(uVelocity, vUv, texelSize).xy * texelSize;
+            gl_FragColor = dissipation * bilerp(uSource, coord, dyeTexelSize);
+            gl_FragColor.a = 1.0;
+        }
+    `);
+
+    const advectionShader = compileShader(gl.FRAGMENT_SHADER, `
+        precision highp float;
+        precision highp sampler2D;
+        varying vec2 vUv;
+        uniform sampler2D uVelocity;
+        uniform sampler2D uSource;
+        uniform vec2 texelSize;
+        uniform float dt;
+        uniform float dissipation;
+        void main () {
+            vec2 coord = vUv - dt * texture2D(uVelocity, vUv).xy * texelSize;
+            gl_FragColor = dissipation * texture2D(uSource, coord);
+            gl_FragColor.a = 1.0;
+        }
+    `);
+
+    const divergenceShader = compileShader(gl.FRAGMENT_SHADER, `
+        precision mediump float;
+        precision mediump sampler2D;
+        varying highp vec2 vUv;
+        varying highp vec2 vL;
+        varying highp vec2 vR;
+        varying highp vec2 vT;
+        varying highp vec2 vB;
+        uniform sampler2D uVelocity;
+        void main () {
+            float L = texture2D(uVelocity, vL).x;
+            float R = texture2D(uVelocity, vR).x;
+            float T = texture2D(uVelocity, vT).y;
+            float B = texture2D(uVelocity, vB).y;
+            vec2 C = texture2D(uVelocity, vUv).xy;
+            if (vL.x < 0.0) { L = -C.x; }
+            if (vR.x > 1.0) { R = -C.x; }
+            if (vT.y > 1.0) { T = -C.y; }
+            if (vB.y < 0.0) { B = -C.y; }
+            float div = 0.5 * (R - L + T - B);
+            gl_FragColor = vec4(div, 0.0, 0.0, 1.0);
+        }
+    `);
+
+    const curlShader = compileShader(gl.FRAGMENT_SHADER, `
+        precision mediump float;
+        precision mediump sampler2D;
+        varying highp vec2 vUv;
+        varying highp vec2 vL;
+        varying highp vec2 vR;
+        varying highp vec2 vT;
+        varying highp vec2 vB;
+        uniform sampler2D uVelocity;
+        void main () {
+            float L = texture2D(uVelocity, vL).y;
+            float R = texture2D(uVelocity, vR).y;
+            float T = texture2D(uVelocity, vT).x;
+            float B = texture2D(uVelocity, vB).x;
+            float vorticity = R - L - T + B;
+            gl_FragColor = vec4(0.5 * vorticity, 0.0, 0.0, 1.0);
+        }
+    `);
+
+    const vorticityShader = compileShader(gl.FRAGMENT_SHADER, `
+        precision highp float;
+        precision highp sampler2D;
+        varying vec2 vUv;
+        varying vec2 vL;
+        varying vec2 vR;
+        varying vec2 vT;
+        varying vec2 vB;
+        uniform sampler2D uVelocity;
+        uniform sampler2D uCurl;
+        uniform float curl;
+        uniform float dt;
+        void main () {
+            float L = texture2D(uCurl, vL).x;
+            float R = texture2D(uCurl, vR).x;
+            float T = texture2D(uCurl, vT).x;
+            float B = texture2D(uCurl, vB).x;
+            float C = texture2D(uCurl, vUv).x;
+            vec2 force = 0.5 * vec2(abs(T) - abs(B), abs(R) - abs(L));
+            force /= length(force) + 0.0001;
+            force *= curl * C;
+            force.y *= -1.0;
+            vec2 vel = texture2D(uVelocity, vUv).xy;
+            gl_FragColor = vec4(vel + force * dt, 0.0, 1.0);
+        }
+    `);
+
+    const pressureShader = compileShader(gl.FRAGMENT_SHADER, `
+        precision mediump float;
+        precision mediump sampler2D;
+        varying highp vec2 vUv;
+        varying highp vec2 vL;
+        varying highp vec2 vR;
+        varying highp vec2 vT;
+        varying highp vec2 vB;
+        uniform sampler2D uPressure;
+        uniform sampler2D uDivergence;
+        vec2 boundary (vec2 uv) {
+            return uv;
+        }
+        void main () {
+            float L = texture2D(uPressure, boundary(vL)).x;
+            float R = texture2D(uPressure, boundary(vR)).x;
+            float T = texture2D(uPressure, boundary(vT)).x;
+            float B = texture2D(uPressure, boundary(vB)).x;
+            float C = texture2D(uPressure, vUv).x;
+            float divergence = texture2D(uDivergence, vUv).x;
+            float pressure = (L + R + B + T - divergence) * 0.25;
+            gl_FragColor = vec4(pressure, 0.0, 0.0, 1.0);
+        }
+    `);
+
+    const gradientSubtractShader = compileShader(gl.FRAGMENT_SHADER, `
+        precision mediump float;
+        precision mediump sampler2D;
+        varying highp vec2 vUv;
+        varying highp vec2 vL;
+        varying highp vec2 vR;
+        varying highp vec2 vT;
+        varying highp vec2 vB;
+        uniform sampler2D uPressure;
+        uniform sampler2D uVelocity;
+        vec2 boundary (vec2 uv) {
+            return uv;
+        }
+        void main () {
+            float L = texture2D(uPressure, boundary(vL)).x;
+            float R = texture2D(uPressure, boundary(vR)).x;
+            float T = texture2D(uPressure, boundary(vT)).x;
+            float B = texture2D(uPressure, boundary(vB)).x;
+            vec2 velocity = texture2D(uVelocity, vUv).xy;
+            velocity.xy -= vec2(R - L, T - B);
+            gl_FragColor = vec4(velocity, 0.0, 1.0);
+        }
+    `);
+
+    const blit = (() => {
+        gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, -1, 1, 1, 1, 1, -1]), gl.STATIC_DRAW);
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, gl.createBuffer());
+        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0, 1, 2, 0, 2, 3]), gl.STATIC_DRAW);
+        gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray(0);
+
+        return (destination) => {
+            gl.bindFramebuffer(gl.FRAMEBUFFER, destination);
+            gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0);
+        }
+    })();
+
+    let simWidth;
+    let simHeight;
+    let dyeWidth;
+    let dyeHeight;
+    let density;
+    let velocity;
+    let divergence;
+    let curl;
+    let pressure;
+    let bloom;
+
+    let ditheringTexture = createNoiseTexture(256);
+
+    const clearProgram = new GLProgram(baseVertexShader, clearShader);
+    const colorProgram = new GLProgram(baseVertexShader, colorShader);
+    const backgroundProgram = new GLProgram(baseVertexShader, backgroundShader);
+    const displayProgram = new GLProgram(baseVertexShader, displayShader);
+    const displayBloomProgram = new GLProgram(baseVertexShader, displayBloomShader);
+    const displayShadingProgram = new GLProgram(baseVertexShader, displayShadingShader);
+    const displayBloomShadingProgram = new GLProgram(baseVertexShader, displayBloomShadingShader);
+    const bloomPrefilterProgram = new GLProgram(baseVertexShader, bloomPrefilterShader);
+    const bloomBlurProgram = new GLProgram(baseVertexShader, bloomBlurShader);
+    const bloomFinalProgram = new GLProgram(baseVertexShader, bloomFinalShader);
+    const splatProgram = new GLProgram(baseVertexShader, splatShader);
+    const advectionProgram = new GLProgram(baseVertexShader, ext.supportLinearFiltering ? advectionShader : advectionManualFilteringShader);
+    const divergenceProgram = new GLProgram(baseVertexShader, divergenceShader);
+    const curlProgram = new GLProgram(baseVertexShader, curlShader);
+    const vorticityProgram = new GLProgram(baseVertexShader, vorticityShader);
+    const pressureProgram = new GLProgram(baseVertexShader, pressureShader);
+    const gradienSubtractProgram = new GLProgram(baseVertexShader, gradientSubtractShader);
+
+    function initFramebuffers() {
+        let simRes = getResolution(config.SIM_RESOLUTION);
+        let dyeRes = getResolution(config.DYE_RESOLUTION);
+
+        simWidth = simRes.width;
+        simHeight = simRes.height;
+        dyeWidth = dyeRes.width;
+        dyeHeight = dyeRes.height;
+
+        const texType = ext.halfFloatTexType;
+        const rgba = ext.formatRGBA;
+        const rg = ext.formatRG;
+        const r = ext.formatR;
+        const filtering = ext.supportLinearFiltering ? gl.LINEAR : gl.NEAREST;
+
+        if (density == null)
+            density = createDoubleFBO(dyeWidth, dyeHeight, rgba.internalFormat, rgba.format, texType, filtering);
+        else
+            density = resizeDoubleFBO(density, dyeWidth, dyeHeight, rgba.internalFormat, rgba.format, texType, filtering);
+
+        if (velocity == null)
+            velocity = createDoubleFBO(simWidth, simHeight, rg.internalFormat, rg.format, texType, filtering);
+        else
+            velocity = resizeDoubleFBO(velocity, simWidth, simHeight, rg.internalFormat, rg.format, texType, filtering);
+
+        divergence = createFBO(simWidth, simHeight, r.internalFormat, r.format, texType, gl.NEAREST);
+        curl = createFBO(simWidth, simHeight, r.internalFormat, r.format, texType, gl.NEAREST);
+        pressure = createDoubleFBO(simWidth, simHeight, r.internalFormat, r.format, texType, gl.NEAREST);
+
+        initBloomFramebuffers();
+    }
+
+    function initBloomFramebuffers() {
+        let res = getResolution(config.BLOOM_RESOLUTION);
+
+        const texType = ext.halfFloatTexType;
+        const rgba = ext.formatRGBA;
+        const filtering = ext.supportLinearFiltering ? gl.LINEAR : gl.NEAREST;
+
+        bloom = createFBO(res.width, res.height, rgba.internalFormat, rgba.format, texType, filtering);
+
+        bloomFramebuffers.length = 0;
+        for (let i = 0; i < config.BLOOM_ITERATIONS; i++) {
+            let width = res.width >> (i + 1);
+            let height = res.height >> (i + 1);
+
+            if (width < 2 || height < 2) break;
+
+            let fbo = createFBO(width, height, rgba.internalFormat, rgba.format, texType, filtering);
+            bloomFramebuffers.push(fbo);
+        }
+    }
+
+    function createFBO(w, h, internalFormat, format, type, param) {
+        gl.activeTexture(gl.TEXTURE0);
+        let texture = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, param);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, param);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        gl.texImage2D(gl.TEXTURE_2D, 0, internalFormat, w, h, 0, format, type, null);
+
+        let fbo = gl.createFramebuffer();
+        gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
+        gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0);
+        gl.viewport(0, 0, w, h);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+
+        return {
+            texture,
+            fbo,
+            width: w,
+            height: h,
+            attach(id) {
+                gl.activeTexture(gl.TEXTURE0 + id);
+                gl.bindTexture(gl.TEXTURE_2D, texture);
+                return id;
+            }
+        };
+    }
+
+    function createDoubleFBO(w, h, internalFormat, format, type, param) {
+        let fbo1 = createFBO(w, h, internalFormat, format, type, param);
+        let fbo2 = createFBO(w, h, internalFormat, format, type, param);
+
+        return {
+            get read() { return fbo1; },
+            set read(value) { fbo1 = value; },
+            get write() { return fbo2; },
+            set write(value) { fbo2 = value; },
+            swap() {
+                let temp = fbo1;
+                fbo1 = fbo2;
+                fbo2 = temp;
+            }
+        }
+    }
+
+    function resizeFBO(target, w, h, internalFormat, format, type, param) {
+        let newFBO = createFBO(w, h, internalFormat, format, type, param);
+        clearProgram.bind();
+        gl.uniform1i(clearProgram.uniforms.uTexture, target.attach(0));
+        gl.uniform1f(clearProgram.uniforms.value, 1);
+        blit(newFBO.fbo);
+        return newFBO;
+    }
+
+    function resizeDoubleFBO(target, w, h, internalFormat, format, type, param) {
+        target.read = resizeFBO(target.read, w, h, internalFormat, format, type, param);
+        target.write = createFBO(w, h, internalFormat, format, type, param);
+        return target;
+    }
+
+    // Procedural noise for dithering (replaces the external LDR texture).
+    function createNoiseTexture(size) {
+        const data = new Uint8Array(size * size * 3);
+        for (let i = 0; i < data.length; i++)
+            data[i] = Math.floor(Math.random() * 256);
+        let texture = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, size, size, 0, gl.RGB, gl.UNSIGNED_BYTE, data);
+        return {
+            texture,
+            width: size,
+            height: size,
+            attach(id) {
+                gl.activeTexture(gl.TEXTURE0 + id);
+                gl.bindTexture(gl.TEXTURE_2D, texture);
+                return id;
+            }
+        };
+    }
+
+    initFramebuffers();
+    // Strong entrance: a dense burst plus several rapid follow-up waves
+    // (drained one-per-frame by input() via splatStack).
+    multipleSplats(34);
+    for (let i = 0; i < 8; i++)
+        splatStack.push(10 + parseInt(Math.random() * 10));
+
+    let lastColorChangeTime = Date.now();
+    let virtualSeeded = false;
+    let orbitAngle = 0;
+    let vPrevX = 0, vPrevY = 0;
+    let virtualColor = null;
+    let lastVColorTime = 0;
+    const engineStart = Date.now();
+    const ORBIT_RADIUS = 300;      // px — the auto-cursor circles the centre at this radius
+    const ORBIT_SPEED = 0.026;     // rad/frame (~4 s per loop)
+    const ORBIT_START_DELAY = 700; // ms after load before the auto-cursor begins (burst plays first)
+
+    let rafHandle = 0;
+    let destroyed = false;
+
+    update();
+
+    function update() {
+        if (destroyed) return;
+        resizeCanvas();
+        driveVirtualPointer();
+        input();
+        if (!config.PAUSED)
+            step(0.016);
+        render(null);
+        rafHandle = requestAnimationFrame(update);
+    }
+
+    // An invisible auto-cursor orbits the centre FOREVER, independent of the real
+    // pointer, splatting bright ink along a gently breathing orbit. Starts a beat
+    // after load so the burst plays first.
+    function driveVirtualPointer() {
+        if (Date.now() - engineStart < ORBIT_START_DELAY)
+            return;
+        const cx = canvas.width / 2;
+        const cy = canvas.height / 2;
+        const base = Math.min(ORBIT_RADIUS, canvas.width * 0.35, canvas.height * 0.35);
+        const r = base * (0.72 + 0.28 * Math.sin(orbitAngle * 0.37));
+        orbitAngle += ORBIT_SPEED;
+        const x = cx + Math.cos(orbitAngle) * r;
+        const y = cy + Math.sin(orbitAngle) * r;
+        if (!virtualSeeded) {
+            virtualSeeded = true;
+            vPrevX = x;
+            vPrevY = y;
+            return;
+        }
+        if (!virtualColor || Date.now() - lastVColorTime > 120) {
+            virtualColor = generateColor();
+            virtualColor.r *= 3.2;
+            virtualColor.g *= 3.2;
+            virtualColor.b *= 3.2;
+            lastVColorTime = Date.now();
+        }
+        const dx = (x - vPrevX) * 9.0;
+        const dy = (y - vPrevY) * 9.0;
+        vPrevX = x;
+        vPrevY = y;
+        splat(x, y, dx, dy, virtualColor);
+    }
+
+    function input() {
+        if (splatStack.length > 0)
+            multipleSplats(splatStack.pop());
+
+        for (let i = 0; i < pointers.length; i++) {
+            const p = pointers[i];
+            if (p.moved) {
+                splat(p.x, p.y, p.dx, p.dy, p.color);
+                p.moved = false;
+            }
+        }
+
+        if (!config.COLORFUL)
+            return;
+
+        if (lastColorChangeTime + 100 < Date.now()) {
+            lastColorChangeTime = Date.now();
+            for (let i = 0; i < pointers.length; i++) {
+                const p = pointers[i];
+                p.color = generateColor();
+            }
+        }
+    }
+
+    function step(dt) {
+        gl.disable(gl.BLEND);
+        gl.viewport(0, 0, simWidth, simHeight);
+
+        curlProgram.bind();
+        gl.uniform2f(curlProgram.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight);
+        gl.uniform1i(curlProgram.uniforms.uVelocity, velocity.read.attach(0));
+        blit(curl.fbo);
+
+        vorticityProgram.bind();
+        gl.uniform2f(vorticityProgram.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight);
+        gl.uniform1i(vorticityProgram.uniforms.uVelocity, velocity.read.attach(0));
+        gl.uniform1i(vorticityProgram.uniforms.uCurl, curl.attach(1));
+        gl.uniform1f(vorticityProgram.uniforms.curl, config.CURL);
+        gl.uniform1f(vorticityProgram.uniforms.dt, dt);
+        blit(velocity.write.fbo);
+        velocity.swap();
+
+        divergenceProgram.bind();
+        gl.uniform2f(divergenceProgram.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight);
+        gl.uniform1i(divergenceProgram.uniforms.uVelocity, velocity.read.attach(0));
+        blit(divergence.fbo);
+
+        clearProgram.bind();
+        gl.uniform1i(clearProgram.uniforms.uTexture, pressure.read.attach(0));
+        gl.uniform1f(clearProgram.uniforms.value, config.PRESSURE_DISSIPATION);
+        blit(pressure.write.fbo);
+        pressure.swap();
+
+        pressureProgram.bind();
+        gl.uniform2f(pressureProgram.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight);
+        gl.uniform1i(pressureProgram.uniforms.uDivergence, divergence.attach(0));
+        for (let i = 0; i < config.PRESSURE_ITERATIONS; i++) {
+            gl.uniform1i(pressureProgram.uniforms.uPressure, pressure.read.attach(1));
+            blit(pressure.write.fbo);
+            pressure.swap();
+        }
+
+        gradienSubtractProgram.bind();
+        gl.uniform2f(gradienSubtractProgram.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight);
+        gl.uniform1i(gradienSubtractProgram.uniforms.uPressure, pressure.read.attach(0));
+        gl.uniform1i(gradienSubtractProgram.uniforms.uVelocity, velocity.read.attach(1));
+        blit(velocity.write.fbo);
+        velocity.swap();
+
+        advectionProgram.bind();
+        gl.uniform2f(advectionProgram.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight);
+        if (!ext.supportLinearFiltering)
+            gl.uniform2f(advectionProgram.uniforms.dyeTexelSize, 1.0 / simWidth, 1.0 / simHeight);
+        let velocityId = velocity.read.attach(0);
+        gl.uniform1i(advectionProgram.uniforms.uVelocity, velocityId);
+        gl.uniform1i(advectionProgram.uniforms.uSource, velocityId);
+        gl.uniform1f(advectionProgram.uniforms.dt, dt);
+        gl.uniform1f(advectionProgram.uniforms.dissipation, config.VELOCITY_DISSIPATION);
+        blit(velocity.write.fbo);
+        velocity.swap();
+
+        gl.viewport(0, 0, dyeWidth, dyeHeight);
+
+        if (!ext.supportLinearFiltering)
+            gl.uniform2f(advectionProgram.uniforms.dyeTexelSize, 1.0 / dyeWidth, 1.0 / dyeHeight);
+        gl.uniform1i(advectionProgram.uniforms.uVelocity, velocity.read.attach(0));
+        gl.uniform1i(advectionProgram.uniforms.uSource, density.read.attach(1));
+        gl.uniform1f(advectionProgram.uniforms.dissipation, config.DENSITY_DISSIPATION);
+        blit(density.write.fbo);
+        density.swap();
+    }
+
+    function render(target) {
+        if (config.BLOOM)
+            applyBloom(density.read, bloom);
+
+        if (target == null || !config.TRANSPARENT) {
+            gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+            gl.enable(gl.BLEND);
+        }
+        else {
+            gl.disable(gl.BLEND);
+        }
+
+        let width = target == null ? gl.drawingBufferWidth : dyeWidth;
+        let height = target == null ? gl.drawingBufferHeight : dyeHeight;
+
+        gl.viewport(0, 0, width, height);
+
+        if (!config.TRANSPARENT) {
+            colorProgram.bind();
+            let bc = config.BACK_COLOR;
+            gl.uniform4f(colorProgram.uniforms.color, bc.r / 255, bc.g / 255, bc.b / 255, 1);
+            blit(target);
+        }
+
+        if (target == null && config.TRANSPARENT) {
+            backgroundProgram.bind();
+            gl.uniform1f(backgroundProgram.uniforms.aspectRatio, canvas.width / canvas.height);
+            blit(null);
+        }
+
+        if (config.SHADING) {
+            let program = config.BLOOM ? displayBloomShadingProgram : displayShadingProgram;
+            program.bind();
+            gl.uniform2f(program.uniforms.texelSize, 1.0 / width, 1.0 / height);
+            gl.uniform1i(program.uniforms.uTexture, density.read.attach(0));
+            if (config.BLOOM) {
+                gl.uniform1i(program.uniforms.uBloom, bloom.attach(1));
+                gl.uniform1i(program.uniforms.uDithering, ditheringTexture.attach(2));
+                let scale = getTextureScale(ditheringTexture, width, height);
+                gl.uniform2f(program.uniforms.ditherScale, scale.x, scale.y);
+            }
+        }
+        else {
+            let program = config.BLOOM ? displayBloomProgram : displayProgram;
+            program.bind();
+            gl.uniform1i(program.uniforms.uTexture, density.read.attach(0));
+            if (config.BLOOM) {
+                gl.uniform1i(program.uniforms.uBloom, bloom.attach(1));
+                gl.uniform1i(program.uniforms.uDithering, ditheringTexture.attach(2));
+                let scale = getTextureScale(ditheringTexture, width, height);
+                gl.uniform2f(program.uniforms.ditherScale, scale.x, scale.y);
+            }
+        }
+
+        blit(target);
+    }
+
+    function applyBloom(source, destination) {
+        if (bloomFramebuffers.length < 2)
+            return;
+
+        let last = destination;
+
+        gl.disable(gl.BLEND);
+        bloomPrefilterProgram.bind();
+        let knee = config.BLOOM_THRESHOLD * config.BLOOM_SOFT_KNEE + 0.0001;
+        let curve0 = config.BLOOM_THRESHOLD - knee;
+        let curve1 = knee * 2;
+        let curve2 = 0.25 / knee;
+        gl.uniform3f(bloomPrefilterProgram.uniforms.curve, curve0, curve1, curve2);
+        gl.uniform1f(bloomPrefilterProgram.uniforms.threshold, config.BLOOM_THRESHOLD);
+        gl.uniform1i(bloomPrefilterProgram.uniforms.uTexture, source.attach(0));
+        gl.viewport(0, 0, last.width, last.height);
+        blit(last.fbo);
+
+        bloomBlurProgram.bind();
+        for (let i = 0; i < bloomFramebuffers.length; i++) {
+            let dest = bloomFramebuffers[i];
+            gl.uniform2f(bloomBlurProgram.uniforms.texelSize, 1.0 / last.width, 1.0 / last.height);
+            gl.uniform1i(bloomBlurProgram.uniforms.uTexture, last.attach(0));
+            gl.viewport(0, 0, dest.width, dest.height);
+            blit(dest.fbo);
+            last = dest;
+        }
+
+        gl.blendFunc(gl.ONE, gl.ONE);
+        gl.enable(gl.BLEND);
+
+        for (let i = bloomFramebuffers.length - 2; i >= 0; i--) {
+            let baseTex = bloomFramebuffers[i];
+            gl.uniform2f(bloomBlurProgram.uniforms.texelSize, 1.0 / last.width, 1.0 / last.height);
+            gl.uniform1i(bloomBlurProgram.uniforms.uTexture, last.attach(0));
+            gl.viewport(0, 0, baseTex.width, baseTex.height);
+            blit(baseTex.fbo);
+            last = baseTex;
+        }
+
+        gl.disable(gl.BLEND);
+        bloomFinalProgram.bind();
+        gl.uniform2f(bloomFinalProgram.uniforms.texelSize, 1.0 / last.width, 1.0 / last.height);
+        gl.uniform1i(bloomFinalProgram.uniforms.uTexture, last.attach(0));
+        gl.uniform1f(bloomFinalProgram.uniforms.intensity, config.BLOOM_INTENSITY);
+        gl.viewport(0, 0, destination.width, destination.height);
+        blit(destination.fbo);
+    }
+
+    function splat(x, y, dx, dy, color) {
+        gl.viewport(0, 0, simWidth, simHeight);
+        splatProgram.bind();
+        gl.uniform1i(splatProgram.uniforms.uTarget, velocity.read.attach(0));
+        gl.uniform1f(splatProgram.uniforms.aspectRatio, canvas.width / canvas.height);
+        gl.uniform2f(splatProgram.uniforms.point, x / canvas.width, 1.0 - y / canvas.height);
+        gl.uniform3f(splatProgram.uniforms.color, dx, -dy, 1.0);
+        gl.uniform1f(splatProgram.uniforms.radius, config.SPLAT_RADIUS / 100.0);
+        blit(velocity.write.fbo);
+        velocity.swap();
+
+        gl.viewport(0, 0, dyeWidth, dyeHeight);
+        gl.uniform1i(splatProgram.uniforms.uTarget, density.read.attach(0));
+        gl.uniform3f(splatProgram.uniforms.color, color.r, color.g, color.b);
+        blit(density.write.fbo);
+        density.swap();
+    }
+
+    function multipleSplats(amount) {
+        for (let i = 0; i < amount; i++) {
+            const color = generateColor();
+            color.r *= 10.0;
+            color.g *= 10.0;
+            color.b *= 10.0;
+            const x = canvas.width * Math.random();
+            const y = canvas.height * Math.random();
+            const dx = 1000 * (Math.random() - 0.5);
+            const dy = 1000 * (Math.random() - 0.5);
+            splat(x, y, dx, dy, color);
+        }
+    }
+
+    function resizeCanvas() {
+        if (canvas.width != canvas.clientWidth || canvas.height != canvas.clientHeight) {
+            canvas.width = canvas.clientWidth;
+            canvas.height = canvas.clientHeight;
+            initFramebuffers();
+        }
+    }
+
+    // The canvas renders BEHIND page content, so pointer data is read from window
+    // events and mapped into canvas space via its bounding rect. Listeners are
+    // passive and never preventDefault, so page scroll is untouched.
+    function pointerPos(clientX, clientY) {
+        const rect = canvas.getBoundingClientRect();
+        return { x: clientX - rect.left, y: clientY - rect.top };
+    }
+
+    const teardown = [];
+    function on(target, type, handler, opts) {
+        target.addEventListener(type, handler, opts);
+        teardown.push(() => target.removeEventListener(type, handler, opts));
+    }
+
+    on(window, 'mousemove', e => {
+        const { x, y } = pointerPos(e.clientX, e.clientY);
+        const p = pointers[0];
+        if (!p.everMoved) {
+            p.everMoved = true;
+            p.x = x;
+            p.y = y;
+            p.down = true;
+            return;
+        }
+        p.down = true;
+        p.moved = true;
+        p.dx = (x - p.x) * 5.0;
+        p.dy = (y - p.y) * 5.0;
+        p.x = x;
+        p.y = y;
+        p.color = generateColor();
+    });
+
+    on(window, 'touchmove', e => {
+        const touches = e.targetTouches;
+        for (let i = 0; i < touches.length; i++) {
+            if (i >= pointers.length)
+                pointers.push(new pointerPrototype());
+            const p = pointers[i];
+            const { x, y } = pointerPos(touches[i].clientX, touches[i].clientY);
+            p.down = true;
+            p.moved = p.everMoved === true;
+            p.everMoved = true;
+            p.dx = (x - p.x) * 8.0;
+            p.dy = (y - p.y) * 8.0;
+            p.x = x;
+            p.y = y;
+        }
+    }, { passive: true });
+
+    on(window, 'touchstart', e => {
+        const touches = e.targetTouches;
+        for (let i = 0; i < touches.length; i++) {
+            if (i >= pointers.length)
+                pointers.push(new pointerPrototype());
+            const p = pointers[i];
+            const { x, y } = pointerPos(touches[i].clientX, touches[i].clientY);
+            p.id = touches[i].identifier;
+            p.down = true;
+            p.x = x;
+            p.y = y;
+            p.color = generateColor();
+        }
+    }, { passive: true });
+
+    on(window, 'mouseup', () => {
+        pointers[0].down = false;
+    });
+
+    on(window, 'touchend', e => {
+        const touches = e.changedTouches;
+        for (let i = 0; i < touches.length; i++)
+            for (let j = 0; j < pointers.length; j++)
+                if (touches[i].identifier == pointers[j].id)
+                    pointers[j].down = false;
+    });
+
+    return function destroy() {
+        destroyed = true;
+        if (rafHandle) cancelAnimationFrame(rafHandle);
+        for (const off of teardown) off();
+    };
+
+    function generateColor() {
+        // Electric cyan→blue→violet→magenta band, full brightness, for a vivid,
+        // slick, immersive palette.
+        const h = 0.5 + Math.random() * 0.42;
+        let c = HSVtoRGB(h, 0.95, 1.0);
+        c.r *= 0.92;
+        c.g *= 0.92;
+        c.b *= 0.92;
+        return c;
+    }
+
+    function HSVtoRGB(h, s, v) {
+        let r, g, b, i, f, p, q, t;
+        i = Math.floor(h * 6);
+        f = h * 6 - i;
+        p = v * (1 - s);
+        q = v * (1 - f * s);
+        t = v * (1 - (1 - f) * s);
+
+        switch (i % 6) {
+            case 0: r = v, g = t, b = p; break;
+            case 1: r = q, g = v, b = p; break;
+            case 2: r = p, g = v, b = t; break;
+            case 3: r = p, g = q, b = v; break;
+            case 4: r = t, g = p, b = v; break;
+            case 5: r = v, g = p, b = q; break;
+        }
+        return { r, g, b };
+    }
+
+    function getResolution(resolution) {
+        let aspectRatio = gl.drawingBufferWidth / gl.drawingBufferHeight;
+        if (aspectRatio < 1)
+            aspectRatio = 1.0 / aspectRatio;
+
+        let max = Math.round(resolution * aspectRatio);
+        let min = Math.round(resolution);
+
+        if (gl.drawingBufferWidth > gl.drawingBufferHeight)
+            return { width: max, height: min };
+        else
+            return { width: min, height: max };
+    }
+
+    function getTextureScale(texture, width, height) {
+        return { x: width / texture.width, y: height / texture.height };
+    }
+}
+const canvas = document.querySelector("canvas");
+if (canvas) fluidSimulation(canvas);
+
+/* ── i18n (PRD 7.3, teks PRD 5.1) ───────────────────────── */
+const EMAIL = "riskyypra1312@gmail.com";
+
+const I18N = {
+  id: {
+    "meta.title": "Risky Pratama — Portofolio",
+    "nav.about": "Tentang",
+    "nav.projects": "Proyek",
+    "nav.journey": "Perjalanan",
+    "nav.contact": "Kontak",
+    "nav.cta": "Hubungi Saya",
+    "hero.badge": "Mahasiswa Sistem Informasi",
+    "hero.heading": "Hai, saya Risky Pratama",
+    "hero.sub": "Membangun situs web dan menjelajahi alat AI, satu proyek menarik pada satu waktu.",
+    "hero.copy": "Salin Email",
+    "about.label": "Tentang",
+    "about.title": "Tentang Saya",
+    "about.paragraph": "Saya mahasiswa Program Studi Sistem Informasi di Fakultas Teknik, Universitas Musamus Merauke. Saya mempelajari pengembangan web dengan HTML, CSS, dan JavaScript, dengan perhatian pada antarmuka yang rapi dan interaktif.",
+    "about.card1.title": "Pendidikan",
+    "about.card1.text": "Sistem Informasi, Fakultas Teknik, Universitas Musamus Merauke",
+    "about.card2.title": "Fokus",
+    "about.card2.text": "Pengembangan web dengan HTML, CSS, dan JavaScript",
+    "about.card3.title": "Di luar kuliah",
+    "about.card3.text": "Mencoba model dan alat AI baru, serta membuat proyek-proyek menarik yang bisa diikuti orang lain",
+    "about.cv": "Unduh CV",
+    "tools.title": "Teknologi dan Alat",
+    "tools.web.title": "Pengembangan Web",
+    "tools.web.chip1": "HTML",
+    "tools.web.chip2": "CSS",
+    "tools.web.chip3": "JavaScript",
+    "tools.android.title": "Pengembangan Android",
+    "tools.android.chip1": "Android Studio",
+    "tools.work.title": "Alat Kerja",
+    "tools.work.chip1": "VS Code",
+    "tools.work.chip2": "Cline",
+    "tools.work.chip3": "freebuff",
+    "tools.ai.title": "Alat Bantu AI",
+    "tools.ai.chip1": "DeepSeek",
+    "tools.ai.chip2": "Qwen",
+    "tools.ai.chip3": "Gemini",
+    "tools.ai.chip4": "Claude",
+    "journey.label": "Perjalanan",
+    "journey.title": "Pendidikan, Organisasi, dan Penghargaan",
+    "journey.timeline": "Garis Waktu",
+    "journey.certs": "Sertifikat dan Penghargaan",
+    "journey.t1.time": "2026–2027",
+    "journey.t1.text": "Anggota Divisi Humas, Himpunan Mahasiswa Sistem Informasi (HMSI)",
+    "journey.t2.time": "2025–sekarang",
+    "journey.t2.text": "Mahasiswa Sistem Informasi, Fakultas Teknik, Universitas Musamus Merauke",
+    "journey.c1.year": "2025",
+    "journey.c1.title": "Juara 3 Lomba Website",
+    "journey.c1.publisher": "Himpunan Mahasiswa Sistem Informasi",
+    "journey.c2.year": "2025",
+    "journey.c2.title": "Peserta Lomba Website",
+    "journey.c2.publisher": "Himpunan Mahasiswa Sistem Informasi",
+    "journey.c3.year": "2024",
+    "journey.c3.title": "Juara 2 Lomba GGM Kimia (kegiatan COD II)",
+    "journey.c3.publisher": "Jurusan Pendidikan Kimia",
+    "journey.c4.year": "2024",
+    "journey.c4.title": "Peserta Seleksi Naskah Bidang Fisika Terapan dan Rekayasa, Olimpiade Penelitian Siswa Indonesia (OPSI)",
+    "journey.c4.publisher": "Kemdikbudsaintek Puspresnas dan Balai Pengembangan Talenta Indonesia",
+    "journey.c5.year": "2024",
+    "journey.c5.title": "Sertifikat Uji Kemahiran Berbahasa Indonesia (UKBI)",
+    "journey.c5.publisher": "Badan Pengembangan dan Pembinaan Bahasa, Kemendikbudristek",
+    "contact.label": "Kontak",
+    "contact.title": "Mari Terhubung",
+    "contact.intro": "Terbuka untuk berdiskusi dan berkolaborasi.",
+    "contact.github": "GitHub",
+    "contact.instagram": "Instagram",
+    "contact.email": "Email",
+    "projects.label": "Proyek",
+    "projects.title": "Proyek Pilihan",
+    "projects.intro": "Aplikasi Android dan website yang saya buat untuk lomba, kuliah, dan keseharian.",
+    "projects.filter.all": "Semua",
+    "projects.filter.web": "Web",
+    "projects.filter.android": "Android",
+    "projects.apk": "APK dipasang di luar Play Store; izinkan instal dari sumber tidak dikenal.",
+    "projects.btn.code": "Kode",
+    "projects.btn.demo": "Demo",
+    "projects.btn.apk": "Unduh APK",
+    "hero.copied": "Tersalin ✓",
+    "footer.text": "© 2026 Risky Pratama. Dibangun dengan HTML, CSS, dan JavaScript."
+  },
+  en: {
+    "meta.title": "Risky Pratama — Portfolio",
+    "nav.about": "About",
+    "nav.projects": "Projects",
+    "nav.journey": "Journey",
+    "nav.contact": "Contact",
+    "nav.cta": "Contact Me",
+    "hero.badge": "Information Systems Student",
+    "hero.heading": "Hi, I'm Risky Pratama",
+    "hero.sub": "Building for the web and exploring new AI tools, one interesting project at a time.",
+    "hero.copy": "Copy Email",
+    "about.label": "About",
+    "about.title": "About Me",
+    "about.paragraph": "I am an Information Systems student in the Faculty of Engineering at Universitas Musamus Merauke. I study web development with HTML, CSS, and JavaScript, with attention to clean, interactive interfaces.",
+    "about.card1.title": "Education",
+    "about.card1.text": "Information Systems, Faculty of Engineering, Universitas Musamus Merauke",
+    "about.card2.title": "Focus",
+    "about.card2.text": "Web development with HTML, CSS, and JavaScript",
+    "about.card3.title": "Beyond class",
+    "about.card3.text": "Trying out new AI models and tools, and building interesting projects that others can follow along with",
+    "about.cv": "Download CV",
+    "tools.title": "Technologies and Tools",
+    "tools.web.title": "Web Development",
+    "tools.web.chip1": "HTML",
+    "tools.web.chip2": "CSS",
+    "tools.web.chip3": "JavaScript",
+    "tools.android.title": "Android Development",
+    "tools.android.chip1": "Android Studio",
+    "tools.work.title": "Working Tools",
+    "tools.work.chip1": "VS Code",
+    "tools.work.chip2": "Cline",
+    "tools.work.chip3": "freebuff",
+    "tools.ai.title": "AI Tools",
+    "tools.ai.chip1": "DeepSeek",
+    "tools.ai.chip2": "Qwen",
+    "tools.ai.chip3": "Gemini",
+    "tools.ai.chip4": "Claude",
+    "journey.label": "Journey",
+    "journey.title": "Education, Organizations, and Awards",
+    "journey.timeline": "Timeline",
+    "journey.certs": "Certificates and Awards",
+    "journey.t1.time": "2026–2027",
+    "journey.t1.text": "Member, Public Relations Division, Information Systems Student Association (HMSI)",
+    "journey.t2.time": "2025–present",
+    "journey.t2.text": "Information Systems student, Faculty of Engineering, Universitas Musamus Merauke",
+    "journey.c1.year": "2025",
+    "journey.c1.title": "3rd Place, Website Competition",
+    "journey.c1.publisher": "Himpunan Mahasiswa Sistem Informasi",
+    "journey.c2.year": "2025",
+    "journey.c2.title": "Participant, Website Competition",
+    "journey.c2.publisher": "Himpunan Mahasiswa Sistem Informasi",
+    "journey.c3.year": "2024",
+    "journey.c3.title": "2nd Place, GGM Chemistry Competition (COD II)",
+    "journey.c3.publisher": "Department of Chemistry Education",
+    "journey.c4.year": "2024",
+    "journey.c4.title": "Manuscript Selection Participant, Applied Physics and Engineering, Indonesian Student Research Olympiad (OPSI)",
+    "journey.c4.publisher": "Kemdikbudsaintek Puspresnas dan Balai Pengembangan Talenta Indonesia",
+    "journey.c5.year": "2024",
+    "journey.c5.title": "Indonesian Language Proficiency Test (UKBI) Certificate",
+    "journey.c5.publisher": "Badan Pengembangan dan Pembinaan Bahasa, Kemendikbudristek",
+    "contact.label": "Contact",
+    "contact.title": "Let's Connect",
+    "contact.intro": "Open to conversations and collaboration.",
+    "contact.github": "GitHub",
+    "contact.instagram": "Instagram",
+    "contact.email": "Email",
+    "projects.label": "Projects",
+    "projects.title": "Selected Projects",
+    "projects.intro": "Android apps and websites I built for competitions, coursework, and everyday use.",
+    "projects.filter.all": "All",
+    "projects.filter.web": "Web",
+    "projects.filter.android": "Android",
+    "projects.apk": "This APK is installed outside the Play Store; allow installs from unknown sources.",
+    "projects.btn.code": "Code",
+    "projects.btn.demo": "Demo",
+    "projects.btn.apk": "Download APK",
+    "hero.copied": "Copied ✓",
+    "footer.text": "© 2026 Risky Pratama. Built with HTML, CSS, and JavaScript."
+  }
+};
+
+const headingEl = document.querySelector("#heading");
+const sublineEl = document.querySelector("#subline");
+const copyBtn = document.querySelector("#copy-email");
+const langButtons = Array.from(document.querySelectorAll(".lang button"));
+
+let copyTimer = 0;
+
+/* Split a line into one inline-block span per word (template word reveal). */
+function splitWords(el, text) {
+  el.textContent = "";
+  const words = text.split(" ");
+  words.forEach((word, i) => {
+    const span = document.createElement("span");
+    span.className = "reveal-word";
+    span.textContent = word;
+    el.appendChild(span);
+    if (i < words.length - 1) el.appendChild(document.createTextNode(" "));
+  });
+  return Array.from(el.querySelectorAll(".reveal-word"));
+}
+
+function replayWords(words, baseDelay, stagger) {
+  if (!words.length) return;
+  words.forEach((word, i) => {
+    word.style.transitionDelay = (baseDelay + i * stagger) + "ms";
+  });
+  /* Flush the hidden start state, then reveal — no frame callback needed. */
+  void words[0].offsetWidth;
+  words.forEach(word => word.classList.add("is-in"));
+}
+
+/* Saved choice wins, otherwise the browser language decides (PRD 7.3). */
+function readSavedLang() {
+  try {
+    const saved = localStorage.getItem("lang");
+    return saved === "id" || saved === "en" ? saved : null;
+  } catch (err) {
+    return null;
+  }
+}
+
+function saveLang(next) {
+  try { localStorage.setItem("lang", next); } catch (err) { /* storage unavailable */ }
+}
+
+let lang = readSavedLang() ||
+  (String(navigator.language || "").toLowerCase().indexOf("id") === 0 ? "id" : "en");
+
+function applyLang(next, first) {
+  lang = next;
+  document.documentElement.lang = lang;
+  document.title = I18N[lang]["meta.title"];
+
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const text = I18N[lang][el.dataset.i18n];
+    if (typeof text === "string") el.textContent = text;
+  });
+
+  clearTimeout(copyTimer);
+  copyBtn.textContent = I18N[lang]["hero.copy"];
+
+  renderProjects();
+
+  langButtons.forEach(btn => {
+    btn.setAttribute("aria-pressed", String(btn.dataset.lang === lang));
+  });
+
+  /* Heading + sub-line are rebuilt per word and replayed on every switch. */
+  replayWords(splitWords(headingEl, I18N[lang]["hero.heading"]), first ? 480 : 0, 85);
+  replayWords(splitWords(sublineEl, I18N[lang]["hero.sub"]), first ? 1150 : 0, 22);
+}
+
+/* ── Projects data (PRD 5.4) ────────────────────────────── */
+const PROJECTS = [
+  {
+    id: "marori",
+    type: "android",
+    name: "MaroriAI - Penerjemah Marind",
+    images: ["assets/marori1.jpg", "assets/marori2.jpg"],
+    tools: ["Android Studio"],
+    links: {
+      code: "https://github.com/Riskyy1312/MaroriAI-Penerjemah-Marind",
+      apk: "https://github.com/Riskyy1312/MaroriAI-Penerjemah-Marind/releases/tag/v1.2024.09"
+    },
+    desc: {
+      id: "Aplikasi Android penerjemah bahasa Marind ke Indonesia dan sebaliknya berbasis AI, dibuat untuk OPSI 2024.",
+      en: "An AI-based Android app that translates between Marind and Indonesian, built for OPSI 2024."
+    }
+  },
+  {
+    id: "myne",
+    type: "android",
+    name: "MyNe - Catatan Pribadi",
+    images: ["assets/myne1.jpg", "assets/myne2.jpg"],
+    tools: ["Android Studio", "freebuff", "Claude"],
+    links: {
+      code: "https://github.com/Riskyy1312/MyNe-Catatan-Pribadi",
+      apk: "https://github.com/Riskyy1312/MyNe-Catatan-Pribadi/releases/tag/v1.1"
+    },
+    desc: {
+      id: "Aplikasi Android sederhana untuk mencatat keuangan pribadi dan daftar tugas kuliah.",
+      en: "A simple Android app for tracking personal finances and coursework to-dos."
+    }
+  },
+  {
+    id: "tamaapp",
+    type: "web",
+    name: "TamaApp SuperApp",
+    images: ["assets/tamaapp.png"],
+    tools: ["VS Code", "Cline (DeepSeek)"],
+    links: {
+      code: "https://github.com/Riskyy1312/tamaapp-superapp",
+      demo: "https://riskyy1312.github.io/tamaapp-superapp/"
+    },
+    desc: {
+      id: "Web app serbaguna sekaligus web pribadi: catatan keuangan, tugas kuliah, penyimpanan data pribadi, proyek GitHub, dan pemindai PDF dalam satu tempat.",
+      en: "An all-in-one web app and personal site for finances, coursework, personal data, GitHub projects, and PDF scanning."
+    }
+  },
+  {
+    id: "observasi",
+    type: "web",
+    name: "Aplikasi Observasi",
+    images: ["assets/observasi1.png", "assets/observasi2.png"],
+    tools: ["VS Code", "Qwen"],
+    links: {
+      code: "https://github.com/Riskyy1312/aplikasi-observasi",
+      demo: "https://aplikasi-observasi-zeta.vercel.app/"
+    },
+    desc: {
+      id: "Web app sederhana untuk membantu teman sejurusan mencatat plat kendaraan bermotor untuk tugas kuliah.",
+      en: "A simple web app that helps classmates record vehicle plate numbers for coursework."
+    }
+  },
+  {
+    id: "pdf",
+    type: "web",
+    name: "PDF Scanner",
+    images: ["assets/pdf.png"],
+    tools: ["VS Code", "Cline (DeepSeek)"],
+    links: {
+      code: "https://github.com/Riskyy1312/PDF-Scanner",
+      demo: "https://riskyy1312.github.io/PDF-Scanner/"
+    },
+    desc: {
+      id: "Pemindai PDF sederhana untuk kebutuhan tugas sehari-hari.",
+      en: "A simple PDF scanner for everyday coursework."
+    }
+  },
+  {
+    id: "kalkulator",
+    type: "web",
+    name: "Web Kalkulator Fungsi",
+    images: ["assets/kalkulator.png"],
+    tools: ["VS Code", "Qwen"],
+    links: {
+      code: "https://github.com/Riskyy1312/web-kalkulator-fungsi",
+      demo: "https://riskyy1312.github.io/web-kalkulator-fungsi/"
+    },
+    desc: {
+      id: "Website penghitung fungsi untuk proyek UAS mata kuliah Kalkulus Lanjutan.",
+      en: "A function calculator website for the Advanced Calculus final project."
+    }
+  },
+  {
+    id: "fungsi",
+    type: "web",
+    name: "Belajar Fungsi Kalkulus",
+    images: ["assets/fungsi.png"],
+    tools: ["VS Code", "Qwen"],
+    links: {
+      code: "https://github.com/Riskyy1312/belajar-fungsi-kalkulus",
+      demo: "https://riskyy1312.github.io/belajar-fungsi-kalkulus/"
+    },
+    desc: {
+      id: "Website modul pembelajaran fungsi kalkulus untuk proyek UAS mata kuliah Kalkulus Lanjutan.",
+      en: "A calculus functions learning-module website for the Advanced Calculus final project."
+    }
+  },
+  {
+    id: "pamong",
+    type: "web",
+    name: "Website Pamong 8",
+    images: ["assets/pamong.png"],
+    tools: ["VS Code", "Gemini"],
+    links: {
+      code: "https://github.com/Riskyy1312/Website-Pamong-8"
+    },
+    award: { id: "Juara 3", en: "3rd Place" },
+    desc: {
+      id: "Website untuk lomba web dalam rangka ulang tahun Jurusan Sistem Informasi, meraih juara 3.",
+      en: "A website for the web competition held for the Information Systems department's anniversary, and won 3rd place."
+    }
+  },
+  {
+    id: "sape",
+    type: "web",
+    name: "sape",
+    images: ["assets/sape.png"],
+    tools: ["VS Code", "DeepSeek"],
+    links: {
+      code: "https://github.com/Riskyy1312/sape",
+      demo: "https://riskyy1312.github.io/sape/"
+    },
+    desc: {
+      id: "Website presentasi tugas Seni Budaya tentang alat musik sape.",
+      en: "A presentation website for an arts and culture assignment on the sape, a traditional instrument."
+    }
+  }
+];
+
+const projectGrid = document.querySelector("#project-grid");
+const filterButtons = Array.from(document.querySelectorAll(".filter-btn"));
+let projectFilter = "all";
+let revealObserver = null;
+
+function observeReveals() {
+  if (!revealObserver) return;
+  document.querySelectorAll(".reveal:not(.is-visible)").forEach(el => revealObserver.observe(el));
+}
+
+function projectCard(project, index) {
+  const card = document.createElement("article");
+  card.className = "project-card reveal";
+  card.dataset.revealDelay = String(index * 90);
+
+  const media = document.createElement("div");
+  media.className = "project-media";
+  project.images.forEach((src, i) => {
+    const img = document.createElement("img");
+    img.src = src;
+    img.alt = project.name + " — " + project.desc[lang];
+    img.loading = "lazy";
+    img.decoding = "async";
+    if (i === 1) img.className = "is-alt";
+    media.appendChild(img);
+  });
+  if (project.images.length > 1) {
+    const dots = document.createElement("div");
+    dots.className = "project-dots";
+    dots.setAttribute("aria-hidden", "true");
+    dots.innerHTML = "<span></span><span></span>";
+    media.appendChild(dots);
+  }
+
+  const body = document.createElement("div");
+  body.className = "project-body";
+
+  const badges = document.createElement("div");
+  badges.className = "project-badges";
+  const typeBadge = document.createElement("span");
+  typeBadge.className = "chip";
+  typeBadge.textContent = I18N[lang]["projects.filter." + project.type];
+  badges.appendChild(typeBadge);
+  if (project.award) {
+    const awardBadge = document.createElement("span");
+    awardBadge.className = "chip chip--award";
+    awardBadge.textContent = project.award[lang];
+    badges.appendChild(awardBadge);
+  }
+
+  const title = document.createElement("h3");
+  title.className = "project-title";
+  title.textContent = project.name;
+
+  const desc = document.createElement("p");
+  desc.className = "project-desc";
+  desc.textContent = project.desc[lang];
+
+  const chips = document.createElement("div");
+  chips.className = "chips";
+  project.tools.forEach(tool => {
+    const chip = document.createElement("span");
+    chip.className = "chip";
+    chip.textContent = tool;
+    chips.appendChild(chip);
+  });
+
+  body.append(badges, title, desc, chips);
+
+  if (project.type === "android") {
+    const note = document.createElement("p");
+    note.className = "apk-note";
+    note.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg><span></span>';
+    note.querySelector("span").textContent = I18N[lang]["projects.apk"];
+    body.appendChild(note);
+  }
+
+  const actions = document.createElement("div");
+  actions.className = "project-actions";
+
+  const actionLink = (href, label, primary) => {
+    const link = document.createElement("a");
+    link.className = primary ? "pill" : "btn-ghost";
+    link.href = href;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = label;
+    return link;
+  };
+
+  actions.appendChild(actionLink(project.links.code, I18N[lang]["projects.btn.code"], true));
+  if (project.links.demo) actions.appendChild(actionLink(project.links.demo, I18N[lang]["projects.btn.demo"], false));
+  if (project.links.apk) actions.appendChild(actionLink(project.links.apk, I18N[lang]["projects.btn.apk"], false));
+  body.appendChild(actions);
+
+  card.append(media, body);
+  return card;
+}
+
+function renderProjects() {
+  const list = PROJECTS.filter(project => projectFilter === "all" || project.type === projectFilter);
+  projectGrid.replaceChildren(...list.map(projectCard));
+
+  filterButtons.forEach(btn => {
+    const isCurrent = btn.dataset.filter === projectFilter;
+    btn.classList.toggle("is-active", isCurrent);
+    btn.setAttribute("aria-pressed", String(isCurrent));
+  });
+
+  observeReveals();
+}
+
+applyLang(lang, true);
+
+/* ── Entrance stagger for the remaining blocks (template delays) ── */
+const revealBlocks = Array.from(document.querySelectorAll(".reveal-block"));
+revealBlocks.forEach(el => {
+  el.style.transitionDelay = (Number(el.dataset.delay) || 0) + "ms";
+});
+void document.body.offsetWidth;
+revealBlocks.forEach(el => el.classList.add("is-in"));
+
+/* ── Toggle ID|EN ───────────────────────────────────────── */
+langButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    if (btn.dataset.lang === lang) return;
+    saveLang(btn.dataset.lang);
+    applyLang(btn.dataset.lang, false);
+  });
+});
+
+/* ── Project filters (Semua / Web / Android) ────────────── */
+filterButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    if (btn.dataset.filter === projectFilter) return;
+    projectFilter = btn.dataset.filter;
+    renderProjects();
+  });
+});
+
+/* ── Smooth scroll to sections (Lenis) ──────────────────── */
+Array.from(document.querySelectorAll(".nav-links a, .brand")).forEach(link => {
+  link.addEventListener("click", event => {
+    const target = document.querySelector(link.getAttribute("href"));
+    if (!target) return;
+    event.preventDefault();
+    lenis.scrollTo(target);
+  });
+});
+
+/* ── Reveal on scroll (one pass per element) ─────────────── */
+document.querySelectorAll(".card-grid, .tools-groups, .cert-list, .timeline").forEach(group => {
+  Array.from(group.children).forEach((child, index) => {
+    child.dataset.revealDelay = String(index * 90);
+  });
+});
+
+if ("IntersectionObserver" in window) {
+  revealObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      el.style.transitionDelay = (Number(el.dataset.revealDelay) || 0) + "ms";
+      el.classList.add("is-visible");
+      observer.unobserve(el);
+      setTimeout(() => { el.style.transitionDelay = ""; }, 900);
+    });
+  }, { threshold: 0.15 });
+
+  observeReveals();
+} else {
+  document.querySelectorAll(".reveal").forEach(el => el.classList.add("is-visible"));
+}
+
+/* ── Active nav link ────────────────────────────────────── */
+const navSections = Array.from(document.querySelectorAll("main section[id]"));
+const navLinkBySection = new Map(
+  Array.from(document.querySelectorAll(".nav-links a")).map(link => [link.getAttribute("href").slice(1), link])
+);
+let navTicking = false;
+
+function updateActiveNav() {
+  navTicking = false;
+  const line = window.innerHeight * 0.5;
+  let activeId = null;
+
+  navSections.forEach(section => {
+    const rect = section.getBoundingClientRect();
+    if (rect.top <= line && rect.bottom > line) activeId = section.id;
+  });
+
+  if (
+    !activeId &&
+    navSections.length &&
+    window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2
+  ) {
+    activeId = navSections[navSections.length - 1].id;
+  }
+
+  navLinkBySection.forEach((link, id) => link.classList.toggle("is-active", id === activeId));
+}
+
+function requestNavUpdate() {
+  if (navTicking) return;
+  navTicking = true;
+  window.requestAnimationFrame(updateActiveNav);
+}
+
+if (navSections.length) {
+  window.addEventListener("scroll", requestNavUpdate, { passive: true });
+  window.addEventListener("resize", requestNavUpdate);
+  updateActiveNav();
+}
+
+/* ── Copy email ─────────────────────────────────────────── */
+copyBtn.addEventListener("click", async () => {
+  try {
+    await navigator.clipboard.writeText(EMAIL);
+  } catch (err) {
+    const field = document.createElement("textarea");
+    field.value = EMAIL;
+    field.setAttribute("readonly", "");
+    field.style.position = "fixed";
+    field.style.opacity = "0";
+    document.body.appendChild(field);
+    field.select();
+    document.execCommand("copy");
+    document.body.removeChild(field);
+  }
+  copyBtn.textContent = I18N[lang]["hero.copied"];
+  clearTimeout(copyTimer);
+  copyTimer = setTimeout(() => { copyBtn.textContent = I18N[lang]["hero.copy"]; }, 2000);
+});
+</script>
+</body>
+</html>
