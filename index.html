@@ -561,16 +561,28 @@
 
   .project-media {
     position: relative;
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 1 / 1;
     overflow: hidden;
     background: rgba(255,255,255,0.04);
+  }
+  .project-media::before {
+    content: "";
+    position: absolute;
+    inset: -2rem;
+    z-index: 0;
+    background-image: var(--img);
+    background-size: cover;
+    background-position: center;
+    filter: blur(18px) brightness(0.62);
+    transform: scale(1.08);
   }
   .project-media img {
     position: absolute;
     inset: 0;
+    z-index: 1;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     transition: opacity 400ms var(--ease-entrance);
   }
   .project-media img.is-alt { opacity: 0; }
@@ -722,6 +734,28 @@
   }
   .reveal.is-visible { opacity: 1; transform: translateY(0); }
 
+  /* ── Toast ─────────────────────────────────────────────── */
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: 2rem;
+    z-index: 60;
+    padding: 0.75rem 1.25rem;
+    border-radius: 9999px;
+    border: 1px solid var(--glass-border);
+    background: rgba(10,12,20,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    font-size: 0.9rem;
+    color: var(--heading);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, 1rem);
+    transition: opacity 250ms var(--ease-entrance), transform 250ms var(--ease-entrance);
+  }
+  .toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
+
   /* ── Reveal ─────────────────────────────────────────────── */
   .reveal-block {
     opacity: 0;
@@ -782,7 +816,7 @@
         <span aria-hidden="true">|</span>
         <button type="button" data-lang="en" aria-label="English" aria-pressed="false">EN</button>
       </div>
-      <a class="pill" href="mailto:riskyypra1312@gmail.com" data-i18n="nav.cta">Hubungi Saya</a>
+      <a class="pill" href="mailto:riskyypra1312@gmail.com" id="contact-cta" data-i18n="nav.cta">Hubungi Saya</a>
     </div>
   </header>
 
@@ -791,7 +825,7 @@
 
     <h1 id="heading" data-i18n="hero.heading">Hai, saya Risky Pratama</h1>
 
-    <p class="sub" id="subline" data-i18n="hero.sub">Membangun situs web dan menjelajahi alat AI, satu proyek menarik pada satu waktu.</p>
+    <p class="sub" id="subline" data-i18n="hero.sub">Mahasiswa yang sedang belajar membuat situs web dan aplikasi, serta mencoba berbagai alat AI.</p>
 
     <div class="cta-bar reveal-block reveal-block--up" data-delay="1450">
       <div class="glass-bar">
@@ -909,7 +943,7 @@
               <span class="timeline-dot" aria-hidden="true"></span>
               <article class="card">
                 <p class="timeline-time" data-i18n="journey.t1.time">2026–2027</p>
-                <p data-i18n="journey.t1.text">Anggota Divisi Humas, Himpunan Mahasiswa Sistem Informasi (HMSI)</p>
+                <p data-i18n="journey.t1.text">Anggota Divisi Humas, Himpunan Mahasiswa Sistem Informasi (HIMASI)</p>
               </article>
             </li>
             <li class="timeline-item reveal">
@@ -950,14 +984,14 @@
               <article class="card cert">
                 <p class="cert-year" data-i18n="journey.c4.year">2024</p>
                 <p class="cert-title" data-i18n="journey.c4.title">Peserta Seleksi Naskah Bidang Fisika Terapan dan Rekayasa, Olimpiade Penelitian Siswa Indonesia (OPSI)</p>
-                <p class="cert-publisher" data-i18n="journey.c4.publisher">Kemdikbudsaintek Puspresnas dan Balai Pengembangan Talenta Indonesia</p>
+                <p class="cert-publisher" data-i18n="journey.c4.publisher">Kementrian Pendidikan, Kebudayaan, Riset, dan Teknologi, Pusat Prestasi Nasional, Balai Pengembangan Talenta Indonesia</p>
               </article>
             </div>
             <div class="reveal">
               <article class="card cert">
                 <p class="cert-year" data-i18n="journey.c5.year">2024</p>
                 <p class="cert-title" data-i18n="journey.c5.title">Sertifikat Uji Kemahiran Berbahasa Indonesia (UKBI)</p>
-                <p class="cert-publisher" data-i18n="journey.c5.publisher">Badan Pengembangan dan Pembinaan Bahasa, Kemendikbudristek</p>
+                <p class="cert-publisher" data-i18n="journey.c5.publisher">Badan Pengembangan dan Pembinaan Bahasa, Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi</p>
               </article>
             </div>
           </div>
@@ -983,7 +1017,7 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
           <span data-i18n="contact.instagram">Instagram</span>
         </a>
-        <a class="contact-btn" href="mailto:riskyypra1312@gmail.com" target="_blank" rel="noopener noreferrer">
+        <a class="contact-btn" href="mailto:riskyypra1312@gmail.com" id="contact-email">
           <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>
           <span data-i18n="contact.email">Email</span>
         </a>
@@ -993,6 +1027,8 @@
 </main>
 
 <footer class="site-footer reveal" data-i18n="footer.text">&copy; 2026 Risky Pratama. Dibangun dengan HTML, CSS, dan JavaScript.</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script type="importmap">{ "imports": { "lenis": "https://unpkg.com/lenis@1.3.19/dist/lenis.mjs" } }</script>
 <script type="module">
@@ -2201,7 +2237,7 @@ const I18N = {
     "nav.cta": "Hubungi Saya",
     "hero.badge": "Mahasiswa Sistem Informasi",
     "hero.heading": "Hai, saya Risky Pratama",
-    "hero.sub": "Membangun situs web dan menjelajahi alat AI, satu proyek menarik pada satu waktu.",
+    "hero.sub": "Mahasiswa yang sedang belajar membuat situs web dan aplikasi, serta mencoba berbagai alat AI.",
     "hero.copy": "Salin Email",
     "about.label": "Tentang",
     "about.title": "Tentang Saya",
@@ -2234,7 +2270,7 @@ const I18N = {
     "journey.timeline": "Garis Waktu",
     "journey.certs": "Sertifikat dan Penghargaan",
     "journey.t1.time": "2026–2027",
-    "journey.t1.text": "Anggota Divisi Humas, Himpunan Mahasiswa Sistem Informasi (HMSI)",
+    "journey.t1.text": "Anggota Divisi Humas, Himpunan Mahasiswa Sistem Informasi (HIMASI)",
     "journey.t2.time": "2025–sekarang",
     "journey.t2.text": "Mahasiswa Sistem Informasi, Fakultas Teknik, Universitas Musamus Merauke",
     "journey.c1.year": "2025",
@@ -2248,10 +2284,10 @@ const I18N = {
     "journey.c3.publisher": "Jurusan Pendidikan Kimia",
     "journey.c4.year": "2024",
     "journey.c4.title": "Peserta Seleksi Naskah Bidang Fisika Terapan dan Rekayasa, Olimpiade Penelitian Siswa Indonesia (OPSI)",
-    "journey.c4.publisher": "Kemdikbudsaintek Puspresnas dan Balai Pengembangan Talenta Indonesia",
+    "journey.c4.publisher": "Kementrian Pendidikan, Kebudayaan, Riset, dan Teknologi, Pusat Prestasi Nasional, Balai Pengembangan Talenta Indonesia",
     "journey.c5.year": "2024",
     "journey.c5.title": "Sertifikat Uji Kemahiran Berbahasa Indonesia (UKBI)",
-    "journey.c5.publisher": "Badan Pengembangan dan Pembinaan Bahasa, Kemendikbudristek",
+    "journey.c5.publisher": "Badan Pengembangan dan Pembinaan Bahasa, Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi",
     "contact.label": "Kontak",
     "contact.title": "Mari Terhubung",
     "contact.intro": "Terbuka untuk berdiskusi dan berkolaborasi.",
@@ -2269,6 +2305,7 @@ const I18N = {
     "projects.btn.demo": "Demo",
     "projects.btn.apk": "Unduh APK",
     "hero.copied": "Tersalin ✓",
+    "email.toast": "Email disalin",
     "footer.text": "© 2026 Risky Pratama. Dibangun dengan HTML, CSS, dan JavaScript."
   },
   en: {
@@ -2280,7 +2317,7 @@ const I18N = {
     "nav.cta": "Contact Me",
     "hero.badge": "Information Systems Student",
     "hero.heading": "Hi, I'm Risky Pratama",
-    "hero.sub": "Building for the web and exploring new AI tools, one interesting project at a time.",
+    "hero.sub": "A student learning to build websites and apps, and trying out different AI tools.",
     "hero.copy": "Copy Email",
     "about.label": "About",
     "about.title": "About Me",
@@ -2313,7 +2350,7 @@ const I18N = {
     "journey.timeline": "Timeline",
     "journey.certs": "Certificates and Awards",
     "journey.t1.time": "2026–2027",
-    "journey.t1.text": "Member, Public Relations Division, Information Systems Student Association (HMSI)",
+    "journey.t1.text": "Member, Public Relations Division, Information Systems Student Association (HIMASI)",
     "journey.t2.time": "2025–present",
     "journey.t2.text": "Information Systems student, Faculty of Engineering, Universitas Musamus Merauke",
     "journey.c1.year": "2025",
@@ -2327,10 +2364,10 @@ const I18N = {
     "journey.c3.publisher": "Department of Chemistry Education",
     "journey.c4.year": "2024",
     "journey.c4.title": "Manuscript Selection Participant, Applied Physics and Engineering, Indonesian Student Research Olympiad (OPSI)",
-    "journey.c4.publisher": "Kemdikbudsaintek Puspresnas dan Balai Pengembangan Talenta Indonesia",
+    "journey.c4.publisher": "Kementrian Pendidikan, Kebudayaan, Riset, dan Teknologi, Pusat Prestasi Nasional, Balai Pengembangan Talenta Indonesia",
     "journey.c5.year": "2024",
     "journey.c5.title": "Indonesian Language Proficiency Test (UKBI) Certificate",
-    "journey.c5.publisher": "Badan Pengembangan dan Pembinaan Bahasa, Kemendikbudristek",
+    "journey.c5.publisher": "Badan Pengembangan dan Pembinaan Bahasa, Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi",
     "contact.label": "Contact",
     "contact.title": "Let's Connect",
     "contact.intro": "Open to conversations and collaboration.",
@@ -2348,6 +2385,7 @@ const I18N = {
     "projects.btn.demo": "Demo",
     "projects.btn.apk": "Download APK",
     "hero.copied": "Copied ✓",
+    "email.toast": "Email copied",
     "footer.text": "© 2026 Risky Pratama. Built with HTML, CSS, and JavaScript."
   }
 };
@@ -2580,6 +2618,7 @@ function projectCard(project, index) {
 
   const media = document.createElement("div");
   media.className = "project-media";
+  media.style.setProperty("--img", 'url("' + project.images[0] + '")');
   project.images.forEach((src, i) => {
     const img = document.createElement("img");
     img.src = src;
@@ -2776,6 +2815,39 @@ if (navSections.length) {
   window.addEventListener("resize", requestNavUpdate);
   updateActiveNav();
 }
+
+/* ── Email opening (mailto on phones, Gmail on desktop) ─── */
+const toastEl = document.querySelector("#toast");
+let toastTimer = 0;
+
+function showToast(message) {
+  if (!toastEl) return;
+  toastEl.textContent = message;
+  toastEl.classList.add("is-visible");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toastEl.classList.remove("is-visible"), 2200);
+}
+
+function openEmail() {
+  if (/Mobi|Android/i.test(navigator.userAgent)) {
+    window.location.href = "mailto:" + EMAIL;
+  } else {
+    window.open("https://mail.google.com/mail/?view=cm&fs=1&to=" + EMAIL, "_blank", "noopener");
+  }
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(EMAIL).catch(() => {});
+  }
+
+  showToast(I18N[lang]["email.toast"]);
+}
+
+Array.from(document.querySelectorAll("#contact-cta, #contact-email")).forEach(link => {
+  link.addEventListener("click", event => {
+    event.preventDefault();
+    openEmail();
+  });
+});
 
 /* ── Copy email ─────────────────────────────────────────── */
 copyBtn.addEventListener("click", async () => {
