@@ -542,7 +542,6 @@
     margin-top: 2rem;
   }
   @media (min-width: 640px)  { .project-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (min-width: 1024px) { .project-grid { grid-template-columns: repeat(3, 1fr); } }
 
   .project-card {
     display: flex;
@@ -585,8 +584,10 @@
     object-fit: contain;
     transition: opacity 400ms var(--ease-entrance);
   }
+  .project-media--wide { aspect-ratio: var(--ratio); }
+  .project-media--wide::before { display: none; }
+  .project-media.is-paged { cursor: pointer; }
   .project-media img.is-alt { opacity: 0; }
-  .project-card:hover .project-media img.is-alt { opacity: 1; }
 
   .project-dots {
     position: absolute;
@@ -601,7 +602,7 @@
     border-radius: 9999px;
     background: rgba(255,255,255,0.45);
   }
-  .project-dots span:first-child { background: rgba(255,255,255,0.9); }
+  .project-dots span.is-on { background: rgba(255,255,255,0.9); }
 
   .project-body {
     display: flex;
@@ -2469,6 +2470,7 @@ const PROJECTS = [
     type: "android",
     name: "MaroriAI - Penerjemah Marind",
     images: ["assets/marori1.jpg", "assets/marori2.jpg"],
+    size: [1080, 2104],
     tools: ["Android Studio"],
     links: {
       code: "https://github.com/Riskyy1312/MaroriAI-Penerjemah-Marind",
@@ -2484,6 +2486,7 @@ const PROJECTS = [
     type: "android",
     name: "MyNe - Catatan Pribadi",
     images: ["assets/myne1.jpg", "assets/myne2.jpg"],
+    size: [1080, 2104],
     tools: ["Android Studio", "freebuff", "Claude"],
     links: {
       code: "https://github.com/Riskyy1312/MyNe-Catatan-Pribadi",
@@ -2499,6 +2502,7 @@ const PROJECTS = [
     type: "web",
     name: "TamaApp SuperApp",
     images: ["assets/tamaapp.png"],
+    size: [1917, 991],
     tools: ["VS Code", "Cline (DeepSeek)"],
     links: {
       code: "https://github.com/Riskyy1312/tamaapp-superapp",
@@ -2514,6 +2518,7 @@ const PROJECTS = [
     type: "web",
     name: "Aplikasi Observasi",
     images: ["assets/observasi1.png", "assets/observasi2.png"],
+    size: [1895, 992],
     tools: ["VS Code", "Qwen"],
     links: {
       code: "https://github.com/Riskyy1312/aplikasi-observasi",
@@ -2529,6 +2534,7 @@ const PROJECTS = [
     type: "web",
     name: "PDF Scanner",
     images: ["assets/pdf.png"],
+    size: [1916, 988],
     tools: ["VS Code", "Cline (DeepSeek)"],
     links: {
       code: "https://github.com/Riskyy1312/PDF-Scanner",
@@ -2544,6 +2550,7 @@ const PROJECTS = [
     type: "web",
     name: "Web Kalkulator Fungsi",
     images: ["assets/kalkulator.png"],
+    size: [1916, 996],
     tools: ["VS Code", "Qwen"],
     links: {
       code: "https://github.com/Riskyy1312/web-kalkulator-fungsi",
@@ -2559,6 +2566,7 @@ const PROJECTS = [
     type: "web",
     name: "Belajar Fungsi Kalkulus",
     images: ["assets/fungsi.png"],
+    size: [1896, 995],
     tools: ["VS Code", "Qwen"],
     links: {
       code: "https://github.com/Riskyy1312/belajar-fungsi-kalkulus",
@@ -2574,6 +2582,7 @@ const PROJECTS = [
     type: "web",
     name: "Website Pamong 8",
     images: ["assets/pamong.png"],
+    size: [1900, 992],
     tools: ["VS Code", "Gemini"],
     links: {
       code: "https://github.com/Riskyy1312/Website-Pamong-8"
@@ -2589,6 +2598,7 @@ const PROJECTS = [
     type: "web",
     name: "sape",
     images: ["assets/sape.png"],
+    size: [1896, 991],
     tools: ["VS Code", "DeepSeek"],
     links: {
       code: "https://github.com/Riskyy1312/sape",
@@ -2619,6 +2629,14 @@ function projectCard(project, index) {
   const media = document.createElement("div");
   media.className = "project-media";
   media.style.setProperty("--img", 'url("' + project.images[0] + '")');
+
+  /* Portrait screenshots keep the 1:1 box; landscape ones use their own ratio. */
+  const isWide = project.size[0] > project.size[1];
+  if (isWide) {
+    media.classList.add("project-media--wide");
+    media.style.setProperty("--ratio", project.size[0] + " / " + project.size[1]);
+  }
+
   project.images.forEach((src, i) => {
     const img = document.createElement("img");
     img.src = src;
@@ -2628,12 +2646,48 @@ function projectCard(project, index) {
     if (i === 1) img.className = "is-alt";
     media.appendChild(img);
   });
+
   if (project.images.length > 1) {
+    media.classList.add("is-paged");
+
     const dots = document.createElement("div");
     dots.className = "project-dots";
     dots.setAttribute("aria-hidden", "true");
-    dots.innerHTML = "<span></span><span></span>";
+    project.images.forEach((src, i) => {
+      const dot = document.createElement("span");
+      if (i === 0) dot.className = "is-on";
+      dots.appendChild(dot);
+    });
     media.appendChild(dots);
+
+    const imgs = Array.from(media.querySelectorAll("img"));
+    const dotEls = Array.from(dots.children);
+    let index = 0;
+
+    const syncRatio = img => {
+      if (!isWide || !img.naturalWidth) return;
+      media.style.setProperty("--ratio", img.naturalWidth + " / " + img.naturalHeight);
+    };
+
+    const show = next => {
+      index = (next + imgs.length) % imgs.length;
+      imgs.forEach((img, i) => img.classList.toggle("is-alt", i !== index));
+      dotEls.forEach((dot, i) => dot.classList.toggle("is-on", i === index));
+      syncRatio(imgs[index]);
+    };
+
+    imgs.forEach(img => {
+      img.addEventListener("load", () => {
+        if (imgs[index] === img) syncRatio(img);
+      });
+    });
+
+    /* Click the right half for the next shot, the left half for the previous one. */
+    media.addEventListener("click", event => {
+      const box = media.getBoundingClientRect();
+      const next = event.clientX - box.left > box.width / 2;
+      show(index + (next ? 1 : -1));
+    });
   }
 
   const body = document.createElement("div");
